@@ -50,7 +50,7 @@
 <details>
 <summary>Mac</summary>
 
-* アプリコーションフォルダから`To Do Timer.app`を削除する
+* アプリケーションフォルダから`To Do Timer.app`を削除する
 
 </details>
 
