@@ -37,17 +37,27 @@
 <details>
 <summary>Windows</summary>
 
+* **[ここから](https://liba-b.work/electron%e3%82%92%e4%bd%bf%e3%81%a3%e3%81%9f%e3%82%bf%e3%82%b9%e3%82%af%e3%82%bf%e3%82%a4%e3%83%9e%e3%83%bc%e3%82%a2%e3%83%97%e3%83%aa%e3%81%ae%e9%96%8b%e7%99%ba/)** インストーラー（exeファイル）をダウンロード  
+ダブルクリックでインストーラーを起動しアプリをインストールする
+
 </details>
+
+> [!CAUTION]
+> システムにアプリをインストールせずにアプリを使用したい場合は、ポータブル版を使用してください。
 
 ## アンインストール方法
 
 <details>
 <summary>Mac</summary>
 
+* アプリコーションフォルダから`To Do Timer.app`を削除する
+
 </details>
 
 <details>
 <summary>Windows</summary>
+
+* `プログラムの追加と削除`から`To Do Timer`を削除する
 
 </details>
 
