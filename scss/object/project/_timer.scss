@@ -1,0 +1,49 @@
+@use "../../foundation/mixin";
+@use "../../foundation/variable";
+
+.p-timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 0;
+  width: 240px;
+  height: 240px;
+
+  &__circle {
+    position: absolute;
+    z-index: -1;
+    top: 10px;
+    content: "";
+    width: 220px;
+    height: 220px;
+    border: 5px solid #F2A33C;
+    border-radius: 50%;
+    background: transparent;
+  }
+
+  &__duration {
+    margin: 80px 0 0;
+    font-size: 40px;
+  }
+
+  &__title {
+    width: 160px;
+    margin: 0 0 15px;
+    padding: 3px 5px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    border: solid 2px #a3a3a3;
+    opacity: 0.6;
+    color: #C8C8C8;
+    font-size: 12px;
+  }
+
+  &__ctrl-btns {
+    display: flex;
+    justify-content: space-evenly;
+    width: 130px;
+  }
+}
+
+

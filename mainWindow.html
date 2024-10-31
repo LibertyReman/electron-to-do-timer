@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
+    <link href="./css/ress.css" rel="stylesheet">
+    <link href="./css/styles.css" rel="stylesheet">
+    <title>To Do Logger</title>
+  </head>
+  <body>
+    <main>
+      <div class="p-timer">
+        <div class="p-timer__circle"></div>
+        <h1 class="p-timer__duration js-timer-duration">01:00:00</h1>
+        <input class="p-timer__title js-timer-title" type="text" placeholder="Title">
+        <div class="p-timer__ctrl-btns">
+          <button class="c-button js-start-stop-btn">START</button>
+          <button class="c-button js-save-reset-btn">SAVE</button>
+        </div>
+      </div>
+    </main>
+    <script src="./mainWindow.js"></script>
+  </body>
+</html>
+
