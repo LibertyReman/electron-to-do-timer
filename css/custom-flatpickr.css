@@ -1,0 +1,18 @@
+.flatpickr-calendar {
+  width: 110px;
+  margin-left: 5px;
+
+  input {
+    font-size: 20px;
+  }
+
+  input:hover,
+  input:focus,
+  .flatpickr-am-pm:hover,
+  .flatpickr-am-pm:focus
+  {
+    background: #404456;
+  }
+}
+
+

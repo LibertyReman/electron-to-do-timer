@@ -1,12 +1,15 @@
+let flatPickr;
 let countdown;
 let remainingTime;
+let initTimerDuration;
 const $startStopBtn = document.querySelector('.js-start-stop-btn');
 const $saveResetBtn = document.querySelector('.js-save-reset-btn');
 const $timerDuration = document.querySelector('.js-timer-duration');
-const initTimerDuration = $timerDuration.textContent;
 
 // DOM読み込み完了後
 window.addEventListener('DOMContentLoaded', () => {
+  initTimerDuration = $timerDuration.value;
+  initFlatpickr();
   timerState('INIT');
 
   // START・STOPボタン押下
@@ -27,19 +30,41 @@ window.addEventListener('DOMContentLoaded', () => {
       timerState('INIT');
     }
   };
+
+  // タイマー設定押下
+  $timerDuration.onclick = () => {
+    flatPickr.toggle();
+  };
+
 });
+
+function initFlatpickr() {
+  flatPickr = flatpickr("#flatpickr", {
+    enableTime: true,
+    noCalendar: true,
+    dateFormat: "H:i:S",
+    time_24hr: true,
+    defaultDate: "01:00:00",
+    clickOpens: false,
+    onClose: () => {
+      initTimerDuration = $timerDuration.value;
+    },
+  });
+}
 
 function timerState(state) {
   switch(state) {
     case 'INIT':
       clearInterval(countdown);
-      $timerDuration.textContent = initTimerDuration;
+      $timerDuration.value = initTimerDuration;
+      $timerDuration.disabled = false;
       updateBtnUI('START', 'SAVE', true);
       break;
 
     case 'START':
-      const [h, m, s] = $timerDuration.textContent.split(':').map(Number);
+      const [h, m, s] = $timerDuration.value.split(':').map(Number);
       remainingTime = 3600 * h + 60 * m + s;
+      $timerDuration.disabled = true;
 
       // タイマー起動
       countdown = setInterval(() => {
@@ -49,7 +74,7 @@ function timerState(state) {
           timerState('SAVE');
           alert('TIME OUT');
         } else {
-          updateTimerDisplay();
+          updateTimerDurationUI();
         }
       }, 1000);
 
@@ -73,11 +98,11 @@ function timerState(state) {
   }
 }
 
-function updateTimerDisplay() {
+function updateTimerDurationUI() {
   const h = String(Math.floor(remainingTime / 3600)).padStart(2, '0');
   const m = String(Math.floor((remainingTime % 3600) / 60)).padStart(2, '0');
   const s = String(remainingTime % 60).padStart(2, '0');
-  $timerDuration.textContent = `${h}:${m}:${s}`;
+  $timerDuration.value = `${h}:${m}:${s}`;
 }
 
 function updateBtnUI(startStopText, saveResetText, saveResetDisabled) {
