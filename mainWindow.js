@@ -7,6 +7,7 @@ const $startStopBtn = document.querySelector('.js-start-stop-btn');
 const $saveResetBtn = document.querySelector('.js-save-reset-btn');
 const $timerDuration = document.querySelector('.js-timer-duration');
 const $timerCircle = document.querySelector('.js-timer-circle');
+const $audio = document.querySelector('.js-audio');
 
 // DOM読み込み完了後
 window.addEventListener('DOMContentLoaded', () => {
@@ -46,10 +47,10 @@ function timeToSecond(time) {
 }
 
 function initFlatpickr() {
-  flatPickr = flatpickr("#flatpickr", {
+  flatPickr = flatpickr('#flatpickr', {
     enableTime: true,
     noCalendar: true,
-    dateFormat: "H:i:S",
+    dateFormat: 'H:i:S',
     time_24hr: true,
     clickOpens: false,
     onClose: () => {
@@ -80,8 +81,8 @@ function timerState(state) {
         updateTimerUI(remainingAngle, remainingTime, true);
 
         if(remainingTime < 0) {
+          playAudio();
           timerState('SAVE');
-          alert('TIME OUT');
         }
       }, 1000);
       break;
@@ -118,6 +119,15 @@ function updateBtnUI(startStopText, saveResetText, saveResetDisabled) {
   $startStopBtn.classList.toggle('u-bgcolor-red', startStopText === 'STOP');
   $saveResetBtn.textContent = saveResetText;
   $saveResetBtn.disabled = saveResetDisabled;
+}
+
+async function playAudio() {
+  $audio.play();
+}
+
+async function stopAudio() {
+  $audio.pause();
+  $audio.currentTime = 0;
 }
 
 
