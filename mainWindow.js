@@ -1,14 +1,16 @@
 let flatPickr;
 let countdown;
+let initTime;
 let remainingTime;
-let initTimerDuration;
+let remainingAngle;
 const $startStopBtn = document.querySelector('.js-start-stop-btn');
 const $saveResetBtn = document.querySelector('.js-save-reset-btn');
 const $timerDuration = document.querySelector('.js-timer-duration');
+const $timerCircle = document.querySelector('.js-timer-circle');
 
 // DOM読み込み完了後
 window.addEventListener('DOMContentLoaded', () => {
-  initTimerDuration = $timerDuration.value;
+  initTime = timeToSecond($timerDuration.value);
   initFlatpickr();
   timerState('INIT');
 
@@ -38,16 +40,21 @@ window.addEventListener('DOMContentLoaded', () => {
 
 });
 
+function timeToSecond(time) {
+  const [h, m, s] = time.split(':').map(Number);
+  return 3600 * h + 60 * m + s;
+}
+
 function initFlatpickr() {
   flatPickr = flatpickr("#flatpickr", {
     enableTime: true,
     noCalendar: true,
     dateFormat: "H:i:S",
     time_24hr: true,
-    defaultDate: "01:00:00",
     clickOpens: false,
     onClose: () => {
-      initTimerDuration = $timerDuration.value;
+      initTime = timeToSecond($timerDuration.value);
+      timerState('INIT');
     },
   });
 }
@@ -56,29 +63,27 @@ function timerState(state) {
   switch(state) {
     case 'INIT':
       clearInterval(countdown);
-      $timerDuration.value = initTimerDuration;
-      $timerDuration.disabled = false;
+      remainingTime = initTime;
+      remainingAngle = 360;
+      updateTimerUI(remainingAngle, remainingTime, false);
       updateBtnUI('START', 'SAVE', true);
       break;
 
     case 'START':
-      const [h, m, s] = $timerDuration.value.split(':').map(Number);
-      remainingTime = 3600 * h + 60 * m + s;
-      $timerDuration.disabled = true;
+      updateTimerUI(remainingAngle, remainingTime, true);
+      updateBtnUI('STOP', 'RESET', false);
 
       // タイマー起動
       countdown = setInterval(() => {
         remainingTime--;
+        remainingAngle -= 360 / initTime;
+        updateTimerUI(remainingAngle, remainingTime, true);
 
-        if(remainingTime <= 0) {
+        if(remainingTime < 0) {
           timerState('SAVE');
           alert('TIME OUT');
-        } else {
-          updateTimerDurationUI();
         }
       }, 1000);
-
-      updateBtnUI('STOP', 'RESET', false);
       break;
 
     case 'STOP':
@@ -98,11 +103,14 @@ function timerState(state) {
   }
 }
 
-function updateTimerDurationUI() {
-  const h = String(Math.floor(remainingTime / 3600)).padStart(2, '0');
-  const m = String(Math.floor((remainingTime % 3600) / 60)).padStart(2, '0');
-  const s = String(remainingTime % 60).padStart(2, '0');
+function updateTimerUI(angle, time, timeDisabled) {
+  const h = String(Math.floor(time / 3600)).padStart(2, '0');
+  const m = String(Math.floor((time % 3600) / 60)).padStart(2, '0');
+  const s = String(time % 60).padStart(2, '0');
+
   $timerDuration.value = `${h}:${m}:${s}`;
+  $timerDuration.disabled = timeDisabled;
+  $timerCircle.style.backgroundImage = `conic-gradient(#F2A33C ${angle}deg, #565656 ${angle}deg)`;
 }
 
 function updateBtnUI(startStopText, saveResetText, saveResetDisabled) {

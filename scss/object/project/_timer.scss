@@ -11,15 +11,25 @@
   height: 240px;
 
   &__circle {
+    display: grid; // 子要素をグリッド内に配置
+    place-items: center; // グリッド内の子要素を横縦中央に配置
     position: absolute;
     z-index: -1;
     top: 10px;
-    content: "";
     width: 220px;
     height: 220px;
-    border: 5px solid #F2A33C;
-    border-radius: 50%;
-    background: transparent;
+    background-image: conic-gradient(#F2A33C 360deg, #565656 360deg);
+    clip-path: circle();
+
+    // 内側の円
+    &::before {
+      display: block;
+      width: 210px;
+      height: 210px;
+      background: variable.$color-basebg;
+      clip-path: circle();
+      content: "";
+    }
   }
 
   &__duration {

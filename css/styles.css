@@ -33,15 +33,23 @@ html {
   height: 240px;
 }
 .p-timer__circle {
+  display: grid;
+  place-items: center;
   position: absolute;
   z-index: -1;
   top: 10px;
-  content: "";
   width: 220px;
   height: 220px;
-  border: 5px solid #F2A33C;
-  border-radius: 50%;
-  background: transparent;
+  background-image: conic-gradient(#F2A33C 360deg, #565656 360deg);
+  clip-path: circle();
+}
+.p-timer__circle::before {
+  display: block;
+  width: 210px;
+  height: 210px;
+  background: #232323;
+  clip-path: circle();
+  content: "";
 }
 .p-timer__duration {
   width: 170px;
