@@ -1,7 +1,7 @@
 @use "./mixin";
 @use "./variable";
 
-@include mixin.dbg-border-all(blue, 1);
+@include mixin.dbg-border-all(blue, 0);
 
 html {
   user-select: none; // テキスト選択不可

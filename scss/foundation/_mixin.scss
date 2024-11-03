@@ -1,11 +1,11 @@
 $dbg: 1;
-$dbg-all: 0;
+$dbg-all: 1;
 
-@mixin dbg-border-all($color: blue, $px: 1){
-  @if($dbg-all == 1){
+@mixin dbg-border-all($color: blue, $switch: 1){
+  @if($switch == 1 and $dbg-all == 1){
     * {
-      outline: #{$px}px solid $color;
-      outline-offset: -#{$px}px;
+      outline: 1px solid $color;
+      outline-offset: -1px;
     }
   }
 }
