@@ -17,6 +17,7 @@ const $modalCloseBtn = document.querySelector('.js-modal-close-btn');
 
 // DOM読み込み完了後
 window.addEventListener('DOMContentLoaded', () => {
+  initializeFromQuery();
   initTime = timeToSecond($timerDuration.value);
   initFlatpickr();
   timerState('INIT');
@@ -60,6 +61,15 @@ window.addEventListener('DOMContentLoaded', () => {
     timerState('SAVE');
   };
 });
+
+// クエリパラメータによる初期化
+function initializeFromQuery() {
+  // クエリパラメータの取得
+  const urlParams = new URLSearchParams(window.location.search);
+  const sound = urlParams.get('sound');
+
+  setAudioSrc(sound);
+}
 
 function timeToSecond(time) {
   const [h, m, s] = time.split(':').map(Number);
@@ -154,6 +164,14 @@ function updateBtnUI(startStopText, saveResetText, saveResetDisabled) {
   $startStopBtn.classList.toggle('u-bgcolor-red', startStopText === 'STOP');
   $saveResetBtn.textContent = saveResetText;
   $saveResetBtn.disabled = saveResetDisabled;
+}
+
+function setAudioSrc(sound) {
+  if (sound === 'pipipi') {
+    $audio.src = './audio/pipipi.mp3';
+  } else {
+    $audio.src = './audio/poppo.mp3';
+  }
 }
 
 async function playAudio() {

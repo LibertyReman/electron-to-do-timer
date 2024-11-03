@@ -29,7 +29,7 @@ function createMainWindow() {
   // 画面フロート設定
   mainWindow.setAlwaysOnTop(appSettings.topmost);
   // 画面作成
-  mainWindow.loadFile('mainWindow.html');
+  mainWindow.loadURL(`file://${__dirname}/mainWindow.html?sound=${appSettings.sound}`);
   // 起動時に自動で開発者ツールを開く
   //mainWindow.webContents.openDevTools();
 
@@ -101,7 +101,7 @@ function createSettingsWindow() {
   });
 
   // 画面作成の際にクエリパラメータでアプリ設定情報を送信
-  settingsWindow.loadURL(`file://${__dirname}/settingsWindow.html?topmost=${appSettings.topmost}&logpath=${appSettings.logpath}`);
+  settingsWindow.loadURL(`file://${__dirname}/settingsWindow.html?sound=${appSettings.sound}&topmost=${appSettings.topmost}`);
   //settingsWindow.webContents.openDevTools();
 }
 
@@ -144,9 +144,10 @@ function loadAppSettings() {
 }
 
 // アプリ設定情報の保存（引数を指定した場合は、その設定を更新）
-function saveAppSettings(topmost = null) {
+function saveAppSettings(sound = null, topmost = null) {
   const [x, y] = mainWindow.getPosition();
 
+  if(sound !== null) appSettings.sound = sound;
   if(topmost !== null) appSettings.topmost = topmost;
   appSettings.x = x;
   appSettings.y = y;
@@ -160,15 +161,18 @@ function saveAppSettings(topmost = null) {
 ipcMain.handle('updateAppSettings', updateAppSettings);
 
 // アプリ設定更新
-function updateAppSettings(event, topmost) {
+function updateAppSettings(event, sound, topmost) {
   // アプリ設定情報の保存
-  saveAppSettings(topmost);
+  saveAppSettings(sound, topmost);
 
   // アプリ設定画面を閉じる
   settingsWindow.close();
 
   // 画面フロート設定の更新
   mainWindow.setAlwaysOnTop(topmost);
+
+  // テーマの更新
+  mainWindow.loadURL(`file://${__dirname}/mainWindow.html?sound=${appSettings.sound}`);
 }
 
 
