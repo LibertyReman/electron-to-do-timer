@@ -1,0 +1,50 @@
+@use "../../foundation/mixin";
+@use "../../foundation/variable";
+
+.p-modal {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+
+  &.is-open {
+    display: flex;
+    animation: modalopen 0.2s ease-in;
+  }
+
+  &__content {
+    width: 90%;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    background: variable.$color-basebg;
+
+    &__message {
+      @include mixin.dbg-bgcolor(blue, 0);
+      margin-bottom: 10px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    &__ctrl-btns {
+      @include mixin.dbg-bgcolor(blue, 0);
+      display: flex;
+      justify-content: space-evenly;
+    }
+  }
+}
+
+@keyframes modalopen {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+

@@ -5,9 +5,15 @@ let remainingTime;
 let remainingAngle;
 const $startStopBtn = document.querySelector('.js-start-stop-btn');
 const $saveResetBtn = document.querySelector('.js-save-reset-btn');
-const $timerDuration = document.querySelector('.js-timer-duration');
 const $timerCircle = document.querySelector('.js-timer-circle');
+const $timerDuration = document.querySelector('.js-timer-duration');
+const $timerTitle = document.querySelector('.js-timer-title');
 const $audio = document.querySelector('.js-audio');
+const $modal = document.querySelector('.js-modal');
+const $modalMessage = document.querySelector('.js-modal-message');
+const $modalContinueBtn = document.querySelector('.js-modal-continue-btn');
+const $modalCloseBtn = document.querySelector('.js-modal-close-btn');
+
 
 // DOM読み込み完了後
 window.addEventListener('DOMContentLoaded', () => {
@@ -39,11 +45,39 @@ window.addEventListener('DOMContentLoaded', () => {
     flatPickr.toggle();
   };
 
+  // モーダルコンティニューボタン押下
+  $modalContinueBtn.onclick = () => {
+    stopAudio();
+    closeModal();
+    timerState('SAVE');
+    timerState('START');
+  };
+
+  // モーダルクローズボタン押下
+  $modalCloseBtn.onclick = () => {
+    stopAudio();
+    closeModal()
+    timerState('SAVE');
+  };
 });
 
 function timeToSecond(time) {
   const [h, m, s] = time.split(':').map(Number);
   return 3600 * h + 60 * m + s;
+}
+
+function secondToHour(second) {
+  let result;
+  const hour = second / 3600;
+  const formattedHour = hour.toFixed(2);
+
+  if(formattedHour.endsWith('.00')) {
+    result = formattedHour.slice(0, -1);
+  } else {
+    result = formattedHour;
+  }
+
+  return result;
 }
 
 function initFlatpickr() {
@@ -80,9 +114,10 @@ function timerState(state) {
         remainingAngle -= 360 / initTime;
         updateTimerUI(remainingAngle, remainingTime, true);
 
-        if(remainingTime < 0) {
+        if(remainingTime <= 0) {
+          clearInterval(countdown);
           playAudio();
-          timerState('SAVE');
+          openModal();
         }
       }, 1000);
       break;
@@ -128,6 +163,15 @@ async function playAudio() {
 async function stopAudio() {
   $audio.pause();
   $audio.currentTime = 0;
+}
+
+function openModal() {
+  $modalMessage.innerHTML = `"${$timerTitle.value}"<br>${secondToHour(initTime - remainingTime)}h 終了`;
+  $modal.classList.add('is-open');
+}
+
+function closeModal() {
+  $modal.classList.remove('is-open');
 }
 
 

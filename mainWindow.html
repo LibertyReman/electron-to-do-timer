@@ -12,6 +12,7 @@
   </head>
   <body>
     <main>
+
       <div class="p-timer">
         <div class="p-timer__circle js-timer-circle"></div>
         <input class="p-timer__duration js-timer-duration" id="flatpickr" type="text" value="01:00:00">
@@ -21,6 +22,17 @@
           <button class="c-button js-save-reset-btn">SAVE</button>
         </div>
       </div>
+
+      <div class="p-modal js-modal">
+        <div class="p-modal__content">
+          <p class="p-modal__content__message js-modal-message"></p>
+          <div class="p-modal__content__ctrl-btns">
+            <button class="c-button js-modal-continue-btn">CONTINUE</button>
+            <button class="c-button js-modal-close-btn">CLOSE</button>
+          </div>
+        </div>
+      </div>
+
     </main>
     <audio class="js-audio" src="./audio/pipipi.mp3" loop></audio>
     <script src="./node_modules/flatpickr/dist/flatpickr.min.js"></script>
