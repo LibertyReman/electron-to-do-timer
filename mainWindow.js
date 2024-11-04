@@ -17,8 +17,14 @@ const $modalCloseBtn = document.querySelector('.js-modal-close-btn');
 
 // DOM読み込み完了後
 window.addEventListener('DOMContentLoaded', () => {
-  initializeFromQuery();
+  // ローカルストレージの値を表示
+  const lastTime = localStorage.getItem('lastTime');
+  if(lastTime) $timerDuration.value = lastTime;
+  $timerTitle.value = localStorage.getItem('lastTitle');
+
+  // 初期化処理
   initTime = timeToSecond($timerDuration.value);
+  initializeFromQuery();
   initFlatpickr();
   timerState('INIT');
 
@@ -46,6 +52,11 @@ window.addEventListener('DOMContentLoaded', () => {
     flatPickr.toggle();
   };
 
+  // タイマータイトルのフォーカスが外れたとき
+  $timerTitle.onblur = () => {
+    localStorage.setItem('lastTitle', $timerTitle.value);
+  };
+
   // モーダルコンティニューボタン押下
   $modalContinueBtn.onclick = () => {
     stopAudio();
@@ -66,9 +77,10 @@ window.addEventListener('DOMContentLoaded', () => {
 function initializeFromQuery() {
   // クエリパラメータの取得
   const urlParams = new URLSearchParams(window.location.search);
-  const sound = urlParams.get('sound');
+  const data = urlParams.get('data');
+  const appSettings = JSON.parse(decodeURIComponent(data));
 
-  setAudioSrc(sound);
+  setAudioSrc(appSettings.sound);
 }
 
 function timeToSecond(time) {
@@ -98,6 +110,7 @@ function initFlatpickr() {
     time_24hr: true,
     clickOpens: false,
     onClose: () => {
+      localStorage.setItem('lastTime', $timerDuration.value);
       initTime = timeToSecond($timerDuration.value);
       timerState('INIT');
     },

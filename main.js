@@ -5,7 +5,7 @@ const settingsFilePath = app.isPackaged ? path.join(__dirname, '..', 'settings.j
 
 let mainWindow;
 let settingsWindow;
-let appSettings = null
+let appSettings = null;
 
 // メイン画面の作成
 function createMainWindow() {
@@ -29,7 +29,8 @@ function createMainWindow() {
   // 画面フロート設定
   mainWindow.setAlwaysOnTop(appSettings.topmost);
   // 画面作成
-  mainWindow.loadURL(`file://${__dirname}/mainWindow.html?sound=${appSettings.sound}`);
+  const encodeData = encodeURIComponent(JSON.stringify(appSettings));
+  mainWindow.loadURL(`file://${__dirname}/mainWindow.html?data=${encodeData}`);
   // 起動時に自動で開発者ツールを開く
   //mainWindow.webContents.openDevTools();
 
@@ -100,8 +101,9 @@ function createSettingsWindow() {
     }
   });
 
-  // 画面作成の際にクエリパラメータでアプリ設定情報を送信
-  settingsWindow.loadURL(`file://${__dirname}/settingsWindow.html?sound=${appSettings.sound}&topmost=${appSettings.topmost}`);
+  // 画面作成
+  const encodeData = encodeURIComponent(JSON.stringify(appSettings));
+  settingsWindow.loadURL(`file://${__dirname}/settingsWindow.html?data=${encodeData}`);
   //settingsWindow.webContents.openDevTools();
 }
 
@@ -122,8 +124,8 @@ app.on('window-all-closed', function () {
 function readJsonFile(fileName) {
   try {
     // JSONファイルの読み込み
-    const json = fs.readFileSync(fileName, 'utf-8');
-    return JSON.parse(json);
+    const data = fs.readFileSync(fileName, 'utf-8');
+    return JSON.parse(data);
   } catch(err) {
     console.error(err);
     // エラーダイアログの表示
@@ -171,8 +173,9 @@ function updateAppSettings(event, sound, topmost) {
   // 画面フロート設定の更新
   mainWindow.setAlwaysOnTop(topmost);
 
-  // テーマの更新
-  mainWindow.loadURL(`file://${__dirname}/mainWindow.html?sound=${appSettings.sound}`);
+  // サウンド設定の更新
+  const encodeData = encodeURIComponent(JSON.stringify(appSettings));
+  mainWindow.loadURL(`file://${__dirname}/mainWindow.html?data=${encodeData}`);
 }
 
 

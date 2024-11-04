@@ -16,13 +16,13 @@ window.addEventListener('DOMContentLoaded', () => {
 function initializeFromQuery() {
   // クエリパラメータの取得
   const urlParams = new URLSearchParams(window.location.search);
-  let sound = urlParams.get('sound');
-  let topmost = urlParams.get('topmost');
+  const data = urlParams.get('data');
+  const appSettings = JSON.parse(decodeURIComponent(data));
 
   // ドロップダウンリストの設定
-  $sound.value = sound;
+  $sound.value = appSettings.sound;
   // チェックボックスの設定
-  if (topmost === 'true') $topmost.checked = true;
+  if (appSettings.topmost === true) $topmost.checked = true;
 }
 
 
