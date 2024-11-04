@@ -1,6 +1,7 @@
 let flatPickr;
 let countdown;
 let initTime;
+let startDateTime;
 let remainingTime;
 let remainingAngle;
 const $startStopBtn = document.querySelector('.js-start-stop-btn');
@@ -136,6 +137,16 @@ function timerState(state) {
       break;
 
     case 'START':
+      // タイマー開始時の日時を取得
+      startDateTime = new Date().toLocaleString('ja-JP', {
+        weekday: 'short',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
       $timerTitle.disabled = true;
       updateTimerUI(remainingAngle, remainingTime, true);
       updateBtnUI('STOP', false, 'RESET', false);
@@ -161,7 +172,9 @@ function timerState(state) {
       break;
 
     case 'SAVE':
-      // TODO:ログ保存処理
+      // ログ保存
+      const log = `[${startDateTime}] ${secondToHour(initTime - remainingTime)}h ${$timerTitle.value}\n`;
+      window.timer.saveLog(log);
 
       timerState('INIT');
       break;

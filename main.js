@@ -161,6 +161,7 @@ function saveAppSettings(sound = null, topmost = null) {
 
 // レンダラープロセスからのリクエスト待ち受け設定
 ipcMain.handle('updateAppSettings', updateAppSettings);
+ipcMain.handle('saveLog', saveLog);
 
 // アプリ設定更新
 function updateAppSettings(event, sound, topmost) {
@@ -176,6 +177,12 @@ function updateAppSettings(event, sound, topmost) {
   // サウンド設定の更新
   const encodeData = encodeURIComponent(JSON.stringify(appSettings));
   mainWindow.loadURL(`file://${__dirname}/mainWindow.html?data=${encodeData}`);
+}
+
+// ログ保存
+function saveLog(event, log) {
+  const logpath = app.isPackaged ? path.join(__dirname, '..', 'todolog.txt') : 'todolog.txt';
+  fs.appendFileSync(logpath, log, 'utf-8');
 }
 
 

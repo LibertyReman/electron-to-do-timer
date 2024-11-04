@@ -8,6 +8,12 @@ contextBridge.exposeInMainWorld('timer', {
     return result;
   },
 
+  // ログ保存関数の実行
+  async saveLog(log) {
+    const result = await ipcRenderer.invoke('saveLog', log);
+    return result;
+  },
+
 });
 
 
