@@ -48,10 +48,16 @@
     padding: 3px 5px;
     border-radius: 6px;
     box-sizing: border-box;
-    border: solid 2px #a3a3a3;
-    opacity: 0.6;
-    color: #C8C8C8;
+    border: solid 2px variable.$color-basefont;
+    opacity: 0.8;
+    color: variable.$color-basefont;
     font-size: 12px;
+    font-weight: bold;
+
+    &:disabled {
+      border: solid 2px variable.$color-basefont;
+      opacity: 0.4;
+    }
   }
 
   &__ctrl-btns {

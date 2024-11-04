@@ -55,6 +55,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // タイマータイトルのフォーカスが外れたとき
   $timerTitle.onblur = () => {
     localStorage.setItem('lastTitle', $timerTitle.value);
+    timerState('INIT');
   };
 
   // モーダルコンティニューボタン押下
@@ -124,12 +125,20 @@ function timerState(state) {
       remainingTime = initTime;
       remainingAngle = 360;
       updateTimerUI(remainingAngle, remainingTime, false);
-      updateBtnUI('START', 'SAVE', true);
+      $timerTitle.disabled = false;
+
+      // タイトル未設定の場合はSTARTボタン非表示
+      if($timerTitle.value === '') {
+        updateBtnUI('START', true, 'SAVE', true);
+      } else {
+        updateBtnUI('START', false, 'SAVE', true);
+      }
       break;
 
     case 'START':
+      $timerTitle.disabled = true;
       updateTimerUI(remainingAngle, remainingTime, true);
-      updateBtnUI('STOP', 'RESET', false);
+      updateBtnUI('STOP', false, 'RESET', false);
 
       // タイマー起動
       countdown = setInterval(() => {
@@ -147,7 +156,8 @@ function timerState(state) {
 
     case 'STOP':
       clearInterval(countdown);
-      updateBtnUI('START', 'SAVE', false);
+      $timerTitle.disabled = false;
+      updateBtnUI('START', false, 'SAVE', false);
       break;
 
     case 'SAVE':
@@ -172,9 +182,10 @@ function updateTimerUI(angle, time, timeDisabled) {
   $timerCircle.style.backgroundImage = `conic-gradient(#F2A33C ${angle}deg, #565656 ${angle}deg)`;
 }
 
-function updateBtnUI(startStopText, saveResetText, saveResetDisabled) {
+function updateBtnUI(startStopText, startStopDisabled, saveResetText, saveResetDisabled) {
   $startStopBtn.textContent = startStopText;
   $startStopBtn.classList.toggle('u-bgcolor-red', startStopText === 'STOP');
+  $startStopBtn.disabled = startStopDisabled;
   $saveResetBtn.textContent = saveResetText;
   $saveResetBtn.disabled = saveResetDisabled;
 }

@@ -64,10 +64,15 @@ html {
   padding: 3px 5px;
   border-radius: 6px;
   box-sizing: border-box;
-  border: solid 2px #a3a3a3;
-  opacity: 0.6;
-  color: #C8C8C8;
+  border: solid 2px #B9B9B9;
+  opacity: 0.8;
+  color: #B9B9B9;
   font-size: 12px;
+  font-weight: bold;
+}
+.p-timer__title:disabled {
+  border: solid 2px #B9B9B9;
+  opacity: 0.4;
 }
 .p-timer__ctrl-btns {
   display: flex;
