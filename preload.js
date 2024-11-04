@@ -14,6 +14,12 @@ contextBridge.exposeInMainWorld('timer', {
     return result;
   },
 
+  // ログ表示画面の作成関数の実行
+  async openLogWindow() {
+    const result = await ipcRenderer.invoke('openLogWindow');
+    return result;
+  },
+
 });
 
 

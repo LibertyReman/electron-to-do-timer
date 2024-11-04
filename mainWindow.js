@@ -4,6 +4,7 @@ let initTime;
 let startDateTime;
 let remainingTime;
 let remainingAngle;
+const $logBtn = document.querySelector('.js-log-btn');
 const $startStopBtn = document.querySelector('.js-start-stop-btn');
 const $saveResetBtn = document.querySelector('.js-save-reset-btn');
 const $timerCircle = document.querySelector('.js-timer-circle');
@@ -28,6 +29,11 @@ window.addEventListener('DOMContentLoaded', () => {
   initializeFromQuery();
   initFlatpickr();
   timerState('INIT');
+
+  // ログボタン押下
+  $logBtn.onclick = () => {
+    window.timer.openLogWindow();
+  };
 
   // START・STOPボタン押下
   $startStopBtn.onclick = () => {

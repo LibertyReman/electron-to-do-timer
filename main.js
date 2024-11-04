@@ -84,6 +84,29 @@ function createMainWindow() {
   //}
 }
 
+// ログ表示画面の作成
+function createLogWindow() {
+  logWindow = new BrowserWindow({
+    width: 450,
+    height: 270,
+    resizable: false,
+    useContentSize: true,
+    minimizable: false,
+    maximizable: false,
+    fullscreenable: false,
+    modal: true,
+    parent: mainWindow,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+    }
+  });
+
+  // 画面作成
+  const logpath = app.isPackaged ? path.join(__dirname, '..', 'todolog.txt') : 'todolog.txt';
+  logWindow.loadURL(`file://${__dirname}/logWindow.html?logpath=${logpath}`);
+  //logWindow.webContents.openDevTools();
+}
+
 // アプリ設定画面の作成
 function createSettingsWindow() {
   settingsWindow = new BrowserWindow({
@@ -162,6 +185,7 @@ function saveAppSettings(sound = null, topmost = null) {
 // レンダラープロセスからのリクエスト待ち受け設定
 ipcMain.handle('updateAppSettings', updateAppSettings);
 ipcMain.handle('saveLog', saveLog);
+ipcMain.handle('openLogWindow', openLogWindow);
 
 // アプリ設定更新
 function updateAppSettings(event, sound, topmost) {
@@ -183,6 +207,11 @@ function updateAppSettings(event, sound, topmost) {
 function saveLog(event, log) {
   const logpath = app.isPackaged ? path.join(__dirname, '..', 'todolog.txt') : 'todolog.txt';
   fs.appendFileSync(logpath, log, 'utf-8');
+}
+
+// ログ保存
+function openLogWindow(event) {
+  createLogWindow();
 }
 
 
