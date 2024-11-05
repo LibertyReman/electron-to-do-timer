@@ -3,10 +3,7 @@ html {
   background: #232323;
   color: #B9B9B9;
   font-family: arial, sans-serif;
-}
-
-::-webkit-scrollbar {
-  display: none;
+  overflow: hidden;
 }
 
 .c-button {
@@ -152,10 +149,15 @@ html {
   width: 95%;
   margin-bottom: 5px;
 }
-.p-log__content iframe {
+.p-log__content pre {
   width: 100%;
   height: 195px;
   border-radius: 10px;
+  background: #121212;
+  padding: 8px;
+  font-size: 13px;
+  user-select: text;
+  overflow-y: auto;
 }
 
 .p-settings {

@@ -8,11 +8,6 @@ html {
   background: variable.$color-basebg;
   color: variable.$color-basefont;
   font-family: arial, sans-serif;
+  overflow: hidden; // スクロールバー非表示
 }
-
-// スクロールバー非表示
-::-webkit-scrollbar {
-  display: none;
-}
-
 
