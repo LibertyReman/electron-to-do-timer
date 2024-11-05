@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
 const path = require('node:path');
 const fs = require('fs');
+const isWin = process.platform === 'win32'
 const settingsFilePath = app.isPackaged ? path.join(__dirname, '..', 'settings.json') : 'settings.json';
 
 let mainWindow;
@@ -13,8 +14,10 @@ function createMainWindow() {
   appSettings = loadAppSettings();
 
   mainWindow = new BrowserWindow({
+    show: false,
     width: 240,
     height: 240,
+    backgroundColor: '#232323',
     resizable: false,
     useContentSize: true,
     maximizable: false,
@@ -24,6 +27,8 @@ function createMainWindow() {
     },
   });
 
+  // レンダリングの準備が完了してから画面を表示
+  mainWindow.once('ready-to-show', () => mainWindow.show());
   // 画面表示位置の設定
   if(appSettings.x && appSettings.y) mainWindow.setPosition(appSettings.x, appSettings.y);
   // 画面フロート設定
@@ -77,18 +82,20 @@ function createMainWindow() {
   ]);
 
   // アプリケーションメニューを表示
-  //if(isWin) {
-  //  Menu.setApplicationMenu(null);
-  //} else {
-  //  Menu.setApplicationMenu(appMenu);
-  //}
+  if(isWin) {
+    Menu.setApplicationMenu(null);
+  } else {
+    Menu.setApplicationMenu(appMenu);
+  }
 }
 
 // ログ表示画面の作成
 function createLogWindow() {
   logWindow = new BrowserWindow({
+    show: false,
     width: 450,
     height: 270,
+    backgroundColor: '#232323',
     resizable: false,
     useContentSize: true,
     minimizable: false,
@@ -100,6 +107,8 @@ function createLogWindow() {
       preload: path.join(__dirname, 'preload.js'),
     }
   });
+
+  logWindow.once('ready-to-show', () => logWindow.show());
 
   // 画面作成
   const logpath = app.isPackaged ? path.join(__dirname, '..', 'todolog.txt') : 'todolog.txt';
@@ -110,8 +119,10 @@ function createLogWindow() {
 // アプリ設定画面の作成
 function createSettingsWindow() {
   settingsWindow = new BrowserWindow({
+    show: false,
     width: 200,
     height: 130,
+    backgroundColor: '#232323',
     resizable: false,
     useContentSize: true,
     minimizable: false,
@@ -123,6 +134,8 @@ function createSettingsWindow() {
       preload: path.join(__dirname, 'preload.js'),
     }
   });
+
+  settingsWindow.once('ready-to-show', () => settingsWindow.show());
 
   // 画面作成
   const encodeData = encodeURIComponent(JSON.stringify(appSettings));
