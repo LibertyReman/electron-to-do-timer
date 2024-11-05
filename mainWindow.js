@@ -129,6 +129,7 @@ function timerState(state) {
   switch(state) {
     case 'INIT':
       clearInterval(countdown);
+      startDateTime = null;
       remainingTime = initTime;
       remainingAngle = 360;
       updateTimerUI(remainingAngle, remainingTime, false);
@@ -144,14 +145,16 @@ function timerState(state) {
 
     case 'START':
       // タイマー開始時の日時を取得
-      startDateTime = new Date().toLocaleString('ja-JP', {
-        weekday: 'short',
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit'
-      });
+      if(startDateTime === null) {
+        startDateTime = new Date().toLocaleString('ja-JP', {
+          weekday: 'short',
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      }
 
       $timerTitle.disabled = true;
       updateTimerUI(remainingAngle, remainingTime, true);
