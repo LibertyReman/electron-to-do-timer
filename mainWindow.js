@@ -104,17 +104,8 @@ function timeToSecond(time) {
 }
 
 function secondToHour(second) {
-  let result;
   const hour = second / 3600;
-  const formattedHour = hour.toFixed(2);
-
-  if(formattedHour.endsWith('.00')) {
-    result = formattedHour.slice(0, -1);
-  } else {
-    result = formattedHour;
-  }
-
-  return result;
+  return hour.toFixed(2);
 }
 
 function initFlatpickr() {

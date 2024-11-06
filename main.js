@@ -222,7 +222,7 @@ function saveLog(event, log) {
   fs.appendFileSync(logpath, log, 'utf-8');
 }
 
-// ログ保存
+// ログ表示画面の作成
 function openLogWindow(event) {
   createLogWindow();
 }
