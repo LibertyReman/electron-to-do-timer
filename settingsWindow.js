@@ -1,4 +1,5 @@
 const $sound = document.querySelector('.js-sound-select');
+const $volume = document.querySelector('.js-volume-range');
 const $topmost = document.querySelector('.js-topmost-checkbox');
 
 // DOM読み込み完了後
@@ -7,7 +8,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Saveボタン押下時
   document.querySelector('.js-settings-save-btn').addEventListener('click', async () => {
-    await window.timer.updateAppSettings($sound.value, $topmost.checked);
+    await window.timer.updateAppSettings($sound.value, $volume.value, $topmost.checked);
   });
 })
 
@@ -18,6 +19,9 @@ function initializeFromQuery() {
   const urlParams = new URLSearchParams(window.location.search);
   const data = urlParams.get('data');
   const appSettings = JSON.parse(decodeURIComponent(data));
+
+  // レンジスライダーの設定
+  $volume.value = appSettings.volume;
 
   // ドロップダウンリストの設定
   $sound.value = appSettings.sound;

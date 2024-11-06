@@ -1,5 +1,6 @@
 {
   "sound": "pipipi",
+  "volume": "0.5",
   "topmost": true,
   "x": null,
   "y": null

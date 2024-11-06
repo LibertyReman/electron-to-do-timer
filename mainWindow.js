@@ -95,7 +95,7 @@ function initializeFromQuery() {
   const data = urlParams.get('data');
   const appSettings = JSON.parse(decodeURIComponent(data));
 
-  setAudioSrc(appSettings.sound);
+  setAudio(appSettings.sound, appSettings.volume);
 }
 
 function timeToSecond(time) {
@@ -210,12 +210,14 @@ function updateBtnUI(startStopText, startStopDisabled, saveResetText, saveResetD
   $saveResetBtn.disabled = saveResetDisabled;
 }
 
-function setAudioSrc(sound) {
+function setAudio(sound, volume) {
   if (sound === 'pipipi') {
     $audio.src = './audio/pipipi.mp3';
   } else {
     $audio.src = './audio/poppo.mp3';
   }
+
+  $audio.volume = volume;
 }
 
 async function playAudio() {

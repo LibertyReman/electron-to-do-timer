@@ -120,8 +120,8 @@ function createLogWindow() {
 function createSettingsWindow() {
   settingsWindow = new BrowserWindow({
     show: false,
-    width: 200,
-    height: 130,
+    width: 210,
+    height: 140,
     backgroundColor: '#232323',
     resizable: false,
     useContentSize: true,
@@ -182,10 +182,11 @@ function loadAppSettings() {
 }
 
 // アプリ設定情報の保存（引数を指定した場合は、その設定を更新）
-function saveAppSettings(sound = null, topmost = null) {
+function saveAppSettings(sound = null, volume = null, topmost = null) {
   const [x, y] = mainWindow.getPosition();
 
   if(sound !== null) appSettings.sound = sound;
+  if(volume !== null) appSettings.volume = volume;
   if(topmost !== null) appSettings.topmost = topmost;
   appSettings.x = x;
   appSettings.y = y;
@@ -201,9 +202,9 @@ ipcMain.handle('saveLog', saveLog);
 ipcMain.handle('openLogWindow', openLogWindow);
 
 // アプリ設定更新
-function updateAppSettings(event, sound, topmost) {
+function updateAppSettings(event, sound, volume, topmost) {
   // アプリ設定情報の保存
-  saveAppSettings(sound, topmost);
+  saveAppSettings(sound, volume, topmost);
 
   // アプリ設定画面を閉じる
   settingsWindow.close();
