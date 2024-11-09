@@ -69,7 +69,18 @@ window.addEventListener('DOMContentLoaded', () => {
   // タイマータイトルのフォーカスが外れたとき
   $timerTitle.onblur = () => {
     localStorage.setItem('lastTitle', $timerTitle.value);
-    timerState('INIT');
+
+    // タイトル未設定の場合はSTARTボタン非表示
+    if($timerTitle.value === '') {
+      updateBtnUI('START', true, 'SAVE', true);
+    } else {
+      if(remainingTime != initTime) {
+        // タイマー起動中の場合はSAVEボタン表示
+        updateBtnUI('START', false, 'SAVE', false);
+      } else {
+        updateBtnUI('START', false, 'SAVE', true);
+      }
+    }
   };
 
   // モーダルコンティニューボタン押下
