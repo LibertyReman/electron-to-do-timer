@@ -10,6 +10,11 @@ window.addEventListener('DOMContentLoaded', () => {
   document.querySelector('.js-settings-save-btn').addEventListener('click', async () => {
     await window.timer.updateAppSettings($sound.value, $volume.value, $topmost.checked);
   });
+
+  // CANCELボタン押下
+  document.querySelector('.js-settings-cancel-btn').addEventListener('click', () => {
+    window.close();
+  });
 })
 
 

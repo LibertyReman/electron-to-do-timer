@@ -64,5 +64,17 @@
     padding-right: 65px;
     margin-bottom: 15px;
   }
+
+  &__ctrl-btns {
+    @include mixin.dbg-bgcolor(red, 0);
+    display: flex;
+    justify-content: space-evenly;
+    width: 145px;
+
+    button {
+      width: 58px;
+      padding: 5px 0px;
+    }
+  }
 }
 

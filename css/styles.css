@@ -213,6 +213,15 @@ html {
   padding-right: 65px;
   margin-bottom: 15px;
 }
+.p-settings__ctrl-btns {
+  display: flex;
+  justify-content: space-evenly;
+  width: 145px;
+}
+.p-settings__ctrl-btns button {
+  width: 58px;
+  padding: 5px 0px;
+}
 
 .u-bgcolor-red {
   background: #D03A3A;
