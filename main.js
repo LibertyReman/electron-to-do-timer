@@ -37,7 +37,7 @@ function createMainWindow() {
   const encodeData = encodeURIComponent(JSON.stringify(appSettings));
   mainWindow.loadURL(`file://${__dirname}/mainWindow.html?data=${encodeData}`);
   // 起動時に自動で開発者ツールを開く
-  //mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools({ mode: 'detach' });
 
   // 画面を閉じる前の処理
   mainWindow.on('close', () => {

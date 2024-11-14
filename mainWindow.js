@@ -114,6 +114,17 @@ function timeToSecond(time) {
   return 3600 * h + 60 * m + s;
 }
 
+function secondToMinute(second) {
+  const minutes = (second / 60).toFixed(0);
+  if (minutes.length === 1) {
+    return "  " + minutes;
+  } else if (minutes.length === 2) {
+    return " " + minutes;
+  } else {
+    return minutes;
+  }
+}
+
 function secondToHour(second) {
   const hour = second / 3600;
   return hour.toFixed(2);
@@ -191,7 +202,7 @@ function timerState(state) {
 
     case 'SAVE':
       // ログ保存
-      const log = `[${startDateTime}] ${secondToHour(initTime - remainingTime)}h ${$timerTitle.value}\n`;
+      const log = `[${startDateTime}] ${secondToMinute(initTime - remainingTime)}分 ${$timerTitle.value}\n`;
       window.timer.saveLog(log);
 
       timerState('INIT');
@@ -241,7 +252,7 @@ async function stopAudio() {
 }
 
 function openModal() {
-  $modalMessage.innerHTML = `"${$timerTitle.value}"<br>${secondToHour(initTime - remainingTime)}h 終了`;
+  $modalMessage.innerHTML = `"${$timerTitle.value}"<br>${secondToMinute(initTime - remainingTime)}分 終了`;
   $modal.classList.add('is-open');
 }
 
