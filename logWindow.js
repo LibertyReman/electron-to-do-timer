@@ -10,10 +10,17 @@ window.addEventListener('DOMContentLoaded', async () => {
   $logcontent.textContent = await filedata.text();
   $logcontent.scrollTop = $logcontent.scrollHeight;
 
+  // 本日の合計時間を表示
+  await displayTodaysTotalHours();
+
   // CLOSEボタン押下
   document.querySelector('.js-log-close-btn').addEventListener('click', () => {
     window.close();
   });
 })
 
+async function displayTodaysTotalHours() {
+  const totalHour = await window.timer.getTodaysTotalHours();
+  document.querySelector('.js-log-todays-total-hours').textContent = `本日の合計：${totalHour}時間`;
+}
 

@@ -20,6 +20,11 @@ contextBridge.exposeInMainWorld('timer', {
     return result;
   },
 
+  // 本日の合計時間を計算する関数の実行
+  async getTodaysTotalHours() {
+    const result = await ipcRenderer.invoke('getTodaysTotalHours');
+    return result;
+  },
 });
 
 

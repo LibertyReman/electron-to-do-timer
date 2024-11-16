@@ -145,17 +145,21 @@ html {
 }
 .p-log__content {
   width: calc(100vw - 30px);
-  margin-bottom: 8px;
+  margin-bottom: 5px;
 }
 .p-log__content pre {
   width: 100%;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 100px);
   border-radius: 10px;
   background: #121212;
   padding: 10px;
   font-size: 13px;
   user-select: text;
   overflow-y: auto;
+}
+.p-log__todays-total-hours {
+  font-size: 14px;
+  margin-bottom: 5px;
 }
 
 .p-settings {

@@ -3,6 +3,7 @@ const path = require('node:path');
 const fs = require('fs');
 const isWin = process.platform === 'win32'
 const settingsFilePath = app.isPackaged ? path.join(__dirname, '..', 'settings.json') : 'settings.json';
+const todologFilePath = app.isPackaged ? path.join(__dirname, '..', 'todolog.txt') : 'todolog.txt';
 
 let mainWindow;
 let settingsWindow;
@@ -94,7 +95,7 @@ function createLogWindow() {
   logWindow = new BrowserWindow({
     show: false,
     width: 450,
-    height: 270,
+    height: 280,
     backgroundColor: '#232323',
     resizable: true,
     useContentSize: true,
@@ -113,7 +114,7 @@ function createLogWindow() {
   // 画面作成
   const logpath = app.isPackaged ? path.join(__dirname, '..', 'todolog.txt') : 'todolog.txt';
   logWindow.loadURL(`file://${__dirname}/logWindow.html?logpath=${logpath}`);
-  //logWindow.webContents.openDevTools();
+  //logWindow.webContents.openDevTools({ mode: 'detach' });
 }
 
 // アプリ設定画面の作成
@@ -140,7 +141,7 @@ function createSettingsWindow() {
   // 画面作成
   const encodeData = encodeURIComponent(JSON.stringify(appSettings));
   settingsWindow.loadURL(`file://${__dirname}/settingsWindow.html?data=${encodeData}`);
-  //settingsWindow.webContents.openDevTools();
+  //settingsWindow.webContents.openDevTools({ mode: 'detach' });
 }
 
 
@@ -200,6 +201,7 @@ function saveAppSettings(sound = null, volume = null, topmost = null) {
 ipcMain.handle('updateAppSettings', updateAppSettings);
 ipcMain.handle('saveLog', saveLog);
 ipcMain.handle('openLogWindow', openLogWindow);
+ipcMain.handle('getTodaysTotalHours', getTodaysTotalHours);
 
 // アプリ設定更新
 function updateAppSettings(event, sound, volume, topmost) {
@@ -228,4 +230,30 @@ function openLogWindow(event) {
   createLogWindow();
 }
 
+// 本日の合計時間を計算
+function getTodaysTotalHours(event) {
+  const logData = fs.readFileSync(todologFilePath, 'utf-8');
+  const today = new Date().toLocaleString('ja-JP', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
+
+  // 合計時間の計算
+  const lines = logData.split('\n');
+  let totalMinutes = 0;
+
+  lines.forEach(line => {
+    if(line.startsWith(`[${today}`)) {
+      // 分の抽出
+      const match = line.match(/\s+(\d{1,3})分/);
+      totalMinutes += parseInt(match[1], 10);
+    }
+  });
+
+  // 時間を計算（小数点第2位まで）
+  const totalHours = (totalMinutes / 60).toFixed(2);
+  // 数値でリターン
+  return parseFloat(totalHours);
+}
 
