@@ -59,13 +59,6 @@ window.addEventListener('DOMContentLoaded', () => {
     flatPickr.toggle();
   };
 
-  // エンター押下でタイマータイトルのフォーカスを外す
-  $timerTitle.onkeydown = (event) => {
-    if (event.key === 'Enter') {
-      $timerTitle.blur();
-    }
-  };
-
   // タイマータイトルのフォーカスが外れたとき
   $timerTitle.onblur = () => {
     localStorage.setItem('lastTitle', $timerTitle.value);
