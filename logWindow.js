@@ -20,7 +20,10 @@ window.addEventListener('DOMContentLoaded', async () => {
 })
 
 async function displayTodaysTotalHours() {
-  const totalHour = await window.timer.getTodaysTotalHours();
-  document.querySelector('.js-log-todays-total-hours').textContent = `本日の合計：${totalHour}時間`;
+  const totalMinutes = await window.timer.getTodaysTotalMinutes();
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+
+  document.querySelector('.js-log-todays-total-hours').textContent = `本日の合計：${hours}時間${minutes}分`;
 }
 

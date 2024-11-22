@@ -201,7 +201,7 @@ function saveAppSettings(sound = null, volume = null, topmost = null) {
 ipcMain.handle('updateAppSettings', updateAppSettings);
 ipcMain.handle('saveLog', saveLog);
 ipcMain.handle('openLogWindow', openLogWindow);
-ipcMain.handle('getTodaysTotalHours', getTodaysTotalHours);
+ipcMain.handle('getTodaysTotalMinutes', getTodaysTotalMinutes);
 
 // アプリ設定更新
 function updateAppSettings(event, sound, volume, topmost) {
@@ -230,8 +230,8 @@ function openLogWindow(event) {
   createLogWindow();
 }
 
-// 本日の合計時間を計算
-function getTodaysTotalHours(event) {
+// 本日の合計分を計算
+function getTodaysTotalMinutes(event) {
   const logData = fs.readFileSync(todologFilePath, 'utf-8');
   const today = new Date().toLocaleString('ja-JP', {
     year: 'numeric',
@@ -251,9 +251,6 @@ function getTodaysTotalHours(event) {
     }
   });
 
-  // 時間を計算（小数点第2位まで）
-  const totalHours = (totalMinutes / 60).toFixed(2);
-  // 数値でリターン
-  return parseFloat(totalHours);
+  return totalMinutes;
 }
 
