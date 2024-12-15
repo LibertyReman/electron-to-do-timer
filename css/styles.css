@@ -167,8 +167,8 @@ html {
   flex-direction: column;
   align-items: center;
   width: 210px;
-  height: 140px;
-  padding: 20px 20px 0;
+  height: 160px;
+  padding: 15px 15px 0;
   font-size: 15px;
 }
 .p-settings__sound {
@@ -177,6 +177,7 @@ html {
   align-items: center;
   position: relative;
   width: 100%;
+  height: 20px;
   margin-bottom: 5px;
 }
 .p-settings__sound::after {
@@ -191,8 +192,9 @@ html {
   border-right: 2px solid #B9B9B9;
 }
 .p-settings__sound select {
-  margin-right: 11px;
-  padding: 3px 20px 3px 7px;
+  height: 100%;
+  margin-right: 12px;
+  padding: 0px 20px 0px 7px;
   border: 1px solid #a3a3a3;
   border-radius: 6px;
   color: #B9B9B9;
@@ -202,20 +204,38 @@ html {
 .p-settings__volume {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
-  padding-right: 55px;
+  height: 20px;
   margin-bottom: 5px;
 }
 .p-settings__volume input {
   width: 80px;
-  margin-left: 40px;
+}
+.p-settings__reset-hours {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 20px;
+  padding-right: 19px;
+  margin-bottom: 5px;
+}
+.p-settings__reset-hours input {
+  height: 100%;
+  margin: 0px 2px 0px 17px;
+  padding-left: 7px;
+  border: 1px solid #a3a3a3;
+  border-radius: 6px;
+  color: #B9B9B9;
 }
 .p-settings__topmost {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
-  padding-right: 65px;
-  margin-bottom: 15px;
+  height: 20px;
+  padding-right: 67px;
+  margin-bottom: 13px;
 }
 .p-settings__ctrl-btns {
   display: flex;

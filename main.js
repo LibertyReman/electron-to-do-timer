@@ -122,7 +122,7 @@ function createSettingsWindow() {
   settingsWindow = new BrowserWindow({
     show: false,
     width: 210,
-    height: 140,
+    height: 160,
     backgroundColor: '#232323',
     resizable: false,
     useContentSize: true,
@@ -183,12 +183,13 @@ function loadAppSettings() {
 }
 
 // アプリ設定情報の保存（引数を指定した場合は、その設定を更新）
-function saveAppSettings(sound = null, volume = null, topmost = null) {
+function saveAppSettings(settings = {}) {
   const [x, y] = mainWindow.getPosition();
 
-  if(sound !== null) appSettings.sound = sound;
-  if(volume !== null) appSettings.volume = volume;
-  if(topmost !== null) appSettings.topmost = topmost;
+  if(settings.sound !== undefined) appSettings.sound = settings.sound;
+  if(settings.volume !== undefined) appSettings.volume = settings.volume;
+  if(settings.resetHours !== undefined) appSettings.resetHours = settings.resetHours;
+  if(settings.topmost !== undefined) appSettings.topmost = settings.topmost;
   appSettings.x = x;
   appSettings.y = y;
 
@@ -204,15 +205,15 @@ ipcMain.handle('openLogWindow', openLogWindow);
 ipcMain.handle('getTodaysTotalMinutes', getTodaysTotalMinutes);
 
 // アプリ設定更新
-function updateAppSettings(event, sound, volume, topmost) {
+function updateAppSettings(event, settings) {
   // アプリ設定情報の保存
-  saveAppSettings(sound, volume, topmost);
+  saveAppSettings(settings);
 
   // アプリ設定画面を閉じる
   settingsWindow.close();
 
   // 画面フロート設定の更新
-  mainWindow.setAlwaysOnTop(topmost);
+  mainWindow.setAlwaysOnTop(settings.topmost);
 
   // サウンド設定の更新
   const encodeData = encodeURIComponent(JSON.stringify(appSettings));
@@ -232,22 +233,37 @@ function openLogWindow(event) {
 
 // 本日の合計分を計算
 function getTodaysTotalMinutes(event) {
-  const logData = fs.readFileSync(todologFilePath, 'utf-8');
-  const today = new Date().toLocaleString('ja-JP', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  });
+  const startTime = new Date();
+  const endTime = new Date();
 
-  // 合計時間の計算
-  const lines = logData.split('\n');
+  // リセット時間を超えていない場合は日付更新しない
+  if(new Date().getHours() < appSettings.resetHours) {
+    startTime.setDate(startTime.getDate() - 1)
+    endTime.setDate(endTime.getDate() - 1)
+  }
+
+  // 合計分の計算範囲
+  startTime.setHours(appSettings.resetHours, 0, 0, 0)
+  endTime.setHours(appSettings.resetHours, 0, 0, 0);
+  endTime.setDate(endTime.getDate() + 1);
+
+  // 合計分の計算
   let totalMinutes = 0;
+  const logData = fs.readFileSync(todologFilePath, 'utf-8');
+  const lines = logData.split('\n');
 
   lines.forEach(line => {
-    if(line.startsWith(`[${today}`)) {
-      // 分の抽出
-      const match = line.match(/\s+(\d{1,3})分/);
-      totalMinutes += parseInt(match[1], 10);
+    // ログのタイムスタンプ抽出
+    const timestampMatch = line.match(/\[(.*?)\]/);
+    if(timestampMatch){
+      // 計算範囲内の合計分を計算
+      const logTime = new Date(timestampMatch[1]);
+      if(startTime <= logTime && logTime < endTime) {
+        const minuteMatch = line.match(/(\d{1,3})分/);
+        if(minuteMatch) {
+          totalMinutes += parseInt(minuteMatch[1], 10);
+        }
+      }
     }
   });
 
