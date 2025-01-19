@@ -19,6 +19,24 @@ html {
   opacity: 0.3;
 }
 
+.c-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.c-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.c-scrollbar::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+}
+.c-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+}
+.c-scrollbar::-webkit-scrollbar-corner {
+  display: none;
+}
+
 .p-timer {
   display: flex;
   flex-direction: column;
@@ -150,7 +168,7 @@ html {
 .p-log__content pre {
   width: 100%;
   height: calc(100vh - 100px);
-  border-radius: 10px;
+  border-radius: 5px;
   background: #121212;
   padding: 10px;
   font-size: 13px;
