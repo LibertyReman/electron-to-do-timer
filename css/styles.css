@@ -240,6 +240,7 @@ html {
 }
 .p-settings__reset-hours input {
   height: 100%;
+  width: 45px;
   margin: 0px 2px 0px 17px;
   padding-left: 7px;
   border: 1px solid #a3a3a3;
