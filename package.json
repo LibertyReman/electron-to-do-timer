@@ -1,7 +1,7 @@
 {
-  "name": "to-do-logger",
+  "name": "to-do-timer",
   "version": "1.2.0",
-  "description": "To Do Logger",
+  "description": "To Do Timer",
   "author": "kk",
   "main": "main.js",
   "scripts": {
@@ -14,8 +14,8 @@
     "build:win64-portable": "electron-builder --win --x64 --dir"
   },
   "build": {
-    "productName": "To Do Logger",
-    "appId": "com.kk.to-do-logger",
+    "productName": "To Do Timer",
+    "appId": "com.kk.to-do-timer",
     "extraFiles": [
       {
         "from": "todolog.txt",

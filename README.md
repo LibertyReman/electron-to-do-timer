@@ -1,4 +1,4 @@
-# To Do Logger
+# To Do Timer
 
 ## ログ機能付きタイマーアプリ（Mac・Windows 対応）
 
@@ -24,7 +24,7 @@
 ダブルクリックでインストーラーを起動し、アイコンをドラッグしてアプリを追加
 1. ターミナルを起動し、次のコマンドを実行
 
-    `xattr -rc /Applications/To\ Do\ Logger.app; echo $?`
+    `xattr -rc /Applications/To\ Do\ Timer.app; echo $?`
 
     `0`が出力されればインストール完了
 
@@ -45,14 +45,14 @@
 <details>
 <summary>Mac</summary>
 
-* アプリケーションフォルダから`To Do Logger.app`を削除する
+* アプリケーションフォルダから`To Do Timer.app`を削除する
 
 </details>
 
 <details>
 <summary>Windows</summary>
 
-* `プログラムの追加と削除`から`To Do Logger`を削除する
+* `プログラムの追加と削除`から`To Do Timer`を削除する
 
 </details>
 
@@ -97,8 +97,8 @@
 
 ## 開発
 
-1. $ git clone <https://github.com/LibertyReman/electron-to-do-logger.git>
-1. $ cd electron-to-do-logger/
+1. $ git clone <https://github.com/LibertyReman/electron-to-do-timer.git>
+1. $ cd electron-to-do-timer/
 1. $ npm install
 1. $ npm run start
 
