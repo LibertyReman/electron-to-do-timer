@@ -10,6 +10,7 @@ const $saveResetBtn = document.querySelector('.js-save-reset-btn');
 const $timerCircle = document.querySelector('.js-timer-circle');
 const $timerDuration = document.querySelector('.js-timer-duration');
 const $timerTitle = document.querySelector('.js-timer-title');
+const $timerTitleHistory = document.querySelector('.js-timer-title-history');
 const $audio = document.querySelector('.js-audio');
 const $modal = document.querySelector('.js-modal');
 const $modalMessage = document.querySelector('.js-modal-message');
@@ -28,6 +29,7 @@ window.addEventListener('DOMContentLoaded', () => {
   initTime = timeToSecond($timerDuration.value);
   initializeFromQuery();
   initFlatpickr();
+  updateTitleList();
   timerState('INIT');
 
   // ログボタン押下
@@ -67,6 +69,9 @@ window.addEventListener('DOMContentLoaded', () => {
     if($timerTitle.value === '') {
       updateBtnUI('START', true, 'SAVE', true);
     } else {
+      saveTitleHistory($timerTitle.value);
+      updateTitleList();
+
       if(remainingTime != initTime) {
         // タイマー起動中の場合はSAVEボタン表示
         updateBtnUI('START', false, 'SAVE', false);
@@ -251,6 +256,31 @@ function openModal() {
 
 function closeModal() {
   $modal.classList.remove('is-open');
+}
+
+// タイトル履歴の保存
+function saveTitleHistory(title) {
+  let history = getTitleHistory();
+
+  // 重複を削除して新しい値を先頭に追加
+  history = history.filter(item => item !== title);
+  history.unshift(title);
+
+  // 最大3件に制限
+  history = history.slice(0, 3);
+
+  localStorage.setItem("titleHistory", JSON.stringify(history));
+}
+
+// タイトルリストの更新
+function updateTitleList() {
+  const history = getTitleHistory();
+  $timerTitleHistory.innerHTML = history.map(item => `<option value="${item}">`).join("");
+}
+
+// タイトル履歴の取得
+function getTitleHistory() {
+  return JSON.parse(localStorage.getItem("titleHistory")) || [];
 }
 
 

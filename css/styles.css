@@ -101,6 +101,13 @@ html {
   border: solid 2px #B9B9B9;
   opacity: 0.4;
 }
+.p-timer__title:-webkit-autofill {
+  box-shadow: 0 0 0 100px #232323 inset;
+  -webkit-text-fill-color: #B9B9B9;
+}
+.p-timer__title[list]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
 .p-timer__ctrl-btns {
   display: flex;
   justify-content: space-evenly;

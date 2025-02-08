@@ -71,6 +71,17 @@
       border: solid 2px variable.$color-basefont;
       opacity: 0.4;
     }
+
+    // ドロップダウン選択時の設定
+    &:-webkit-autofill {
+      box-shadow: 0 0 0 100px variable.$color-basebg inset;
+      -webkit-text-fill-color: variable.$color-basefont;
+    }
+
+    // ドロップダウン三角アイコン非表示
+    &[list]::-webkit-calendar-picker-indicator {
+      opacity: 0;
+    }
   }
 
   &__ctrl-btns {

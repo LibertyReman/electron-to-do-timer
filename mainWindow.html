@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'">
     <link href="./css/ress.css" rel="stylesheet">
     <link href="./node_modules/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
     <link href="./node_modules/flatpickr/dist/themes/dark.css" rel="stylesheet">
@@ -17,7 +17,8 @@
         <button class="c-button p-timer__logbtn js-log-btn">L</button>
         <div class="p-timer__circle js-timer-circle"></div>
         <input class="p-timer__duration js-timer-duration" id="flatpickr" type="text" value="01:00:00">
-        <input class="p-timer__title js-timer-title" type="text" placeholder="Title">
+        <input class="p-timer__title js-timer-title" type="text" spellcheck="false" placeholder="Title" list="title-history">
+        <datalist class="js-timer-title-history" id="title-history"></datalist>
         <div class="p-timer__ctrl-btns">
           <button class="c-button js-start-stop-btn">START</button>
           <button class="c-button js-save-reset-btn">SAVE</button>
