@@ -20,9 +20,9 @@ contextBridge.exposeInMainWorld('timer', {
     return result;
   },
 
-  // 本日の合計分を計算する関数の実行
-  async getTodaysTotalMinutes() {
-    const result = await ipcRenderer.invoke('getTodaysTotalMinutes');
+  // 日付の合計分を計算する関数の実行
+  async getDateTotalMinutes(date) {
+    const result = await ipcRenderer.invoke('getTodaysTotalMinutes', date);
     return result;
   },
 });

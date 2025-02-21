@@ -185,9 +185,33 @@ html {
   user-select: text;
   overflow-y: auto;
 }
-.p-log__todays-total-hours {
-  font-size: 14px;
+.p-log__date-total-minutes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 25px;
   margin-bottom: 5px;
+}
+.p-log__date-total-minutes input[type=date] {
+  height: 100%;
+  margin-left: 8px;
+  padding-right: 1px;
+  color: #B9B9B9;
+  font-size: 15px;
+}
+.p-log__date-total-minutes input[type=date]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+.p-log__date-total-minutes p {
+  width: 130px;
+  height: 100%;
+  font-size: 14px;
+  line-height: 27px;
+}
+.p-log__date-total-minutes button {
+  background: none;
+  font-size: 14px;
+  font-weight: normal;
 }
 
 .p-settings {

@@ -208,7 +208,7 @@ function saveAppSettings(settings = {}) {
 ipcMain.handle('updateAppSettings', updateAppSettings);
 ipcMain.handle('saveLog', saveLog);
 ipcMain.handle('openLogWindow', openLogWindow);
-ipcMain.handle('getTodaysTotalMinutes', getTodaysTotalMinutes);
+ipcMain.handle('getTodaysTotalMinutes', getDateTotalMinutes);
 
 // アプリ設定更新
 function updateAppSettings(event, settings) {
@@ -238,9 +238,16 @@ function openLogWindow(event) {
 }
 
 // 本日の合計分を計算
-function getTodaysTotalMinutes(event) {
+function getDateTotalMinutes(event, date) {
+  const dateArray = date.split('-');
+  const [year, month, day] = dateArray.map(val => parseInt(val, 10));
   const startTime = new Date();
-  const endTime = new Date();
+
+  // 日付を設定
+  startTime.setFullYear(year, month - 1, day);
+
+  // startTimeのコピーを作成
+  const endTime = new Date(startTime);
 
   // リセット時間を超えていない場合は日付更新しない
   if(new Date().getHours() < appSettings.resetHours) {

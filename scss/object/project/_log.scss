@@ -29,10 +29,38 @@
     }
   }
 
-  &__todays-total-hours {
+  &__date-total-minutes {
     @include mixin.dbg-bgcolor(blue, 0);
-    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 25px;
     margin-bottom: 5px;
+
+    input[type="date"]  {
+      height: 100%;
+      margin-left: 8px;
+      padding-right: 1px;
+      color: variable.$color-basefont;
+      font-size: 15px;
+
+      &::-webkit-calendar-picker-indicator {
+        display: none;
+      }
+    }
+
+    p {
+      width: 130px;
+      height: 100%;
+      font-size: 14px;
+      line-height: 27px; // 高さ調整
+    }
+
+    button {
+      background: none;
+      font-size: 14px;
+      font-weight: normal;
+    }
   }
 }
 

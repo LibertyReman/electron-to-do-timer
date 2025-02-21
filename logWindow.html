@@ -10,11 +10,18 @@
   <body>
     <main>
       <div class="p-log">
-        <p class="p-log__title">todolog.txt</p>
+        <p class="p-log__title">Log</p>
         <div class="p-log__content">
           <pre class="c-scrollbar js-log-content"></pre>
         </div>
-        <p class="p-log__todays-total-hours js-log-todays-total-hours"></p>
+
+        <div class="p-log__date-total-minutes">
+          <button class="c-button js-log-prev-btn">&lt;</button>
+          <input class="js-log-date" type="date" max="9999-12-31">
+          <p class="js-log-date-total-minutes"></p>
+          <button class="c-button js-log-next-btn">&gt;</button>
+        </div>
+
         <button class="c-button js-log-close-btn">CLOSE</button>
       </div>
     </main>
