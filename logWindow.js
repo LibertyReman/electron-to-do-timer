@@ -6,6 +6,7 @@ const $logCloseBtn = document.querySelector('.js-log-close-btn');
 // DOM読み込み完了後
 window.addEventListener('DOMContentLoaded', async () => {
   // 初期化処理
+  initializeTabs();
   await initializeFromQuery();
 
   // 今日の日付をセット
@@ -42,6 +43,22 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 })
 
+function initializeTabs() {
+  const $tabs = document.querySelectorAll(".js-tab li");
+  const $contents = document.querySelectorAll(".js-tab-contents > div");
+
+  $tabs.forEach((tab, index) => {
+    // タブ押下
+    tab.addEventListener("click", () => {
+      $tabs.forEach(l => l.classList.remove("active"));
+      $contents.forEach(c => c.classList.remove("active"));
+
+      tab.classList.add("active");
+      $contents[index].classList.add("active");
+    });
+  });
+}
+
 // クエリパラメータによる初期化
 async function initializeFromQuery() {
   // クエリパラメータの取得
@@ -60,6 +77,6 @@ async function displayDateTotalMinutes(date) {
   const hours = Math.floor(totalMinutes / 60);
   const minutes = totalMinutes % 60;
 
-  document.querySelector('.js-log-date-total-minutes').textContent = `の合計：${hours}時間${minutes}分`;
+  document.querySelector('.js-log-date-sum').textContent = `の合計：${hours}時間${minutes}分`;
 }
 

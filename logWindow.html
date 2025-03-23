@@ -10,19 +10,31 @@
   <body>
     <main>
       <div class="p-log">
-        <p class="p-log__title">Log</p>
-        <div class="p-log__content">
-          <pre class="c-scrollbar js-log-content"></pre>
+        <ul class="p-log__tabs js-tab">
+          <li class="active">Logs</li>
+          <li>Chart</li>
+          <li>Search</li>
+        </ul>
+
+        <div class="p-log__tab-contents js-tab-contents">
+          <div class="p-log__tab-contents__logs active">
+            <pre class="c-scrollbar js-log-content"></pre>
+            <div class="p-log__tab-contents__logs__sum">
+              <button class="c-button js-log-prev-btn">&lt;</button>
+              <input class="js-log-date" type="date" max="9999-12-31">
+              <p class="js-log-date-sum"></p>
+              <button class="c-button js-log-next-btn">&gt;</button>
+            </div>
+          </div>
+
+          <div class="p-log__tab-contents__chart">
+          </div>
+
+          <div class="p-log__tab-contents__search">
+          </div>
         </div>
 
-        <div class="p-log__date-total-minutes">
-          <button class="c-button js-log-prev-btn">&lt;</button>
-          <input class="js-log-date" type="date" max="9999-12-31">
-          <p class="js-log-date-total-minutes"></p>
-          <button class="c-button js-log-next-btn">&gt;</button>
-        </div>
-
-        <button class="c-button js-log-close-btn">CLOSE</button>
+        <button class="c-button p-log__close-btn js-log-close-btn">CLOSE</button>
       </div>
     </main>
     <script src="./logWindow.js"></script>

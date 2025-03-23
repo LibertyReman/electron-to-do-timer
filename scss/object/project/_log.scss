@@ -8,59 +8,98 @@
   align-items: center;
   padding-top: 10px;
 
-  &__title {
-    margin-bottom: 5px;
-  }
+  &__tabs {
+    display: flex;
+    margin-bottom: 7px;
 
-  &__content {
-    @include mixin.dbg-bgcolor(blue, 0);
-    width: calc(100vw - 30px);
-    margin-bottom: 5px;
+    > li {
+      width: 65px;
+      color: variable.$color-tabfont;
+      font-weight: bold;
+      text-align: center;
+      cursor: pointer;
 
-    pre {
-      width: 100%;
-      height: calc(100vh - 100px);
-      border-radius: 5px;
-      background: #121212;
-      padding: 10px;
-      font-size: 13px;
-      user-select: text; // テキスト選択可
-      overflow-y: auto; // スクロールバー表示
+      &:hover {
+        opacity: .8;
+      }
+
+      &.active {
+        border-bottom: 3px solid variable.$color-tabactive;
+        color: variable.$color-tabactive;
+      }
     }
   }
 
-  &__date-total-minutes {
-    @include mixin.dbg-bgcolor(blue, 0);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 25px;
-    margin-bottom: 5px;
-
-    input[type="date"]  {
-      height: 100%;
-      margin-left: 8px;
-      padding-right: 1px;
-      color: variable.$color-basefont;
-      font-size: 15px;
-
-      &::-webkit-calendar-picker-indicator {
-        display: none;
+  &__tab-contents {
+    &__logs, &__chart, &__search {
+      &.active {
+        display: flex;
       }
     }
 
-    p {
-      width: 130px;
-      height: 100%;
-      font-size: 14px;
-      line-height: 27px; // 高さ調整
+    &__logs {
+      @include mixin.dbg-bgcolor(blue, 0);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+
+      pre {
+        width: calc(100vw - 30px);
+        height: calc(100vh - 105px);
+        border-radius: 5px;
+        background: #121212;
+        padding: 10px;
+        font-size: 13px;
+        user-select: text; // テキスト選択可
+        overflow-y: auto; // スクロールバー表示
+        margin-bottom: 5px;
+      }
+
+      &__sum {
+        @include mixin.dbg-bgcolor(blue, 0);
+        display: flex;
+        height: 25px;
+
+        input[type="date"]  {
+          height: 100%;
+          margin-left: 8px;
+          padding-right: 1px;
+          color: variable.$color-basefont;
+          font-size: 15px;
+
+          &::-webkit-calendar-picker-indicator {
+            display: none;
+          }
+        }
+
+        p {
+          width: 130px;
+          height: 100%;
+          font-size: 14px;
+          line-height: 27px; // 高さ調整
+        }
+
+        button {
+          background: none;
+          font-size: 14px;
+          font-weight: normal;
+        }
+      }
     }
 
-    button {
-      background: none;
-      font-size: 14px;
-      font-weight: normal;
+    &__chart {
     }
+
+    &__search {
+    }
+
   }
+
+  // ボタン位置を下に固定
+  &__close-btn {
+    position: fixed;
+    bottom: 8px;
+  }
+
 }
 

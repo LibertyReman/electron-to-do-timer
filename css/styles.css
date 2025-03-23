@@ -6,6 +6,10 @@ html {
   overflow: hidden;
 }
 
+li {
+  list-style: none;
+}
+
 .c-button {
   padding: 5px 7px;
   border-radius: 6px;
@@ -168,50 +172,71 @@ html {
   align-items: center;
   padding-top: 10px;
 }
-.p-log__title {
-  margin-bottom: 5px;
+.p-log__tabs {
+  display: flex;
+  margin-bottom: 7px;
 }
-.p-log__content {
+.p-log__tabs > li {
+  width: 65px;
+  color: #999999;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+}
+.p-log__tabs > li:hover {
+  opacity: 0.8;
+}
+.p-log__tabs > li.active {
+  border-bottom: 3px solid #2589d0;
+  color: #2589d0;
+}
+.p-log__tab-contents__logs.active, .p-log__tab-contents__chart.active, .p-log__tab-contents__search.active {
+  display: flex;
+}
+.p-log__tab-contents__logs {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+}
+.p-log__tab-contents__logs pre {
   width: calc(100vw - 30px);
-  margin-bottom: 5px;
-}
-.p-log__content pre {
-  width: 100%;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 105px);
   border-radius: 5px;
   background: #121212;
   padding: 10px;
   font-size: 13px;
   user-select: text;
   overflow-y: auto;
-}
-.p-log__date-total-minutes {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 25px;
   margin-bottom: 5px;
 }
-.p-log__date-total-minutes input[type=date] {
+.p-log__tab-contents__logs__sum {
+  display: flex;
+  height: 25px;
+}
+.p-log__tab-contents__logs__sum input[type=date] {
   height: 100%;
   margin-left: 8px;
   padding-right: 1px;
   color: #B9B9B9;
   font-size: 15px;
 }
-.p-log__date-total-minutes input[type=date]::-webkit-calendar-picker-indicator {
+.p-log__tab-contents__logs__sum input[type=date]::-webkit-calendar-picker-indicator {
   display: none;
 }
-.p-log__date-total-minutes p {
+.p-log__tab-contents__logs__sum p {
   width: 130px;
   height: 100%;
   font-size: 14px;
   line-height: 27px;
 }
-.p-log__date-total-minutes button {
+.p-log__tab-contents__logs__sum button {
   background: none;
   font-size: 14px;
   font-weight: normal;
+}
+.p-log__close-btn {
+  position: fixed;
+  bottom: 8px;
 }
 
 .p-settings {
