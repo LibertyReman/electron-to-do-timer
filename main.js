@@ -102,6 +102,8 @@ function createLogWindow() {
     show: false,
     width: 450,
     height: 280,
+    minWidth: 450,
+    minHeight: 280,
     backgroundColor: '#232323',
     resizable: true,
     useContentSize: true,

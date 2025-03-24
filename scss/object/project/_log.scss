@@ -88,9 +88,17 @@
     }
 
     &__chart {
+      @include mixin.dbg-bgcolor(red, 0);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: calc(100vw - 20px);
+      height: calc(100vh - 80px);
     }
 
     &__search {
+      @include mixin.dbg-bgcolor(green, 0);
+      display: none;
     }
 
   }

@@ -8,11 +8,10 @@ window.addEventListener('DOMContentLoaded', async () => {
   // 初期化処理
   initializeTabs();
   await initializeFromQuery();
+  initializeChart();
 
-  // 今日の日付をセット
+  // 今日の合計分を表示
   $logDate.value = new Date().toLocaleDateString('sv-SE');
-
-  // 合計分を表示
   await displayDateTotalMinutes($logDate.value);
 
   // 日付変更時
@@ -79,4 +78,67 @@ async function displayDateTotalMinutes(date) {
 
   document.querySelector('.js-log-date-sum').textContent = `の合計：${hours}時間${minutes}分`;
 }
+
+
+async function initializeChart() {
+  // 過去7日間の日付を生成
+  const today = new Date();
+  const labels = Array.from({ length: 7 }, (_, i) => {
+    const date = new Date();
+    date.setDate(today.getDate() - i);
+    return date.toLocaleDateString('ja-JP', { month: '2-digit', day: '2-digit' });
+  }).reverse();
+  const data = await Promise.all(
+    Array.from({ length: 7 }, async (_, i) => {
+      const date = new Date();
+      date.setDate(today.getDate() - i);
+      const totalMinutes = await window.timer.getDateTotalMinutes(date.toLocaleDateString('sv-SE'));
+      return (totalMinutes / 60).toFixed(1);
+    }).reverse()
+  );
+
+  // グラフ作成
+  const $chart = document.querySelector(".js-chart");
+  new Chart($chart, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: data,
+        borderWidth: 2
+      }]
+    },
+    options: {
+      animation: {
+        duration: 0
+      },
+      plugins: {
+        title: {
+          display: false
+        },
+        legend: {
+          display: false
+        },
+        tooltip: {
+          enabled: false
+        },
+        datalabels: {
+          align: 'top',
+          anchor: 'center',
+          font: {
+            weight: 'bold'
+          },
+          formatter: (value) => value + 'h'
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    },
+    plugins: [ChartDataLabels]
+  });
+}
+
 

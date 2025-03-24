@@ -234,6 +234,16 @@ li {
   font-size: 14px;
   font-weight: normal;
 }
+.p-log__tab-contents__chart {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  width: calc(100vw - 20px);
+  height: calc(100vh - 80px);
+}
+.p-log__tab-contents__search {
+  display: none;
+}
 .p-log__close-btn {
   position: fixed;
   bottom: 8px;
