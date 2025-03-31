@@ -1,15 +1,19 @@
+let weekChart = null;
+let weekChartDate = new Date();
 const $logDate = document.querySelector('.js-log-date');
 const $logLeftBtn = document.querySelector('.js-log-prev-btn');
 const $logRightBtn = document.querySelector('.js-log-next-btn');
-const $logSearch = document.querySelector('.js-log-search');
-const $logCloseBtn = document.querySelector('.js-log-close-btn');
+const $chartLeftBtn = document.querySelector('.js-chart-prev-btn');
+const $chartRightBtn = document.querySelector('.js-chart-next-btn');
+const $search = document.querySelector('.js-search');
+const $closeBtn = document.querySelector('.js-close-btn');
 
 // DOM読み込み完了後
 window.addEventListener('DOMContentLoaded', async () => {
   // 初期化処理
   initializeTabs();
   await initializeFromQuery();
-  initializeChart();
+  initializeWeekChart();
 
   // 今日の合計分を表示
   $logDate.value = new Date().toLocaleDateString('sv-SE');
@@ -20,7 +24,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     displayDateTotalMinutes($logDate.value);
   };
 
-  // 左ボタン押下
+  // ログの左ボタン押下
   $logLeftBtn.onclick = () => {
     const prevDate = new Date($logDate.value);
     prevDate.setDate(prevDate.getDate() - 1);
@@ -28,7 +32,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     displayDateTotalMinutes($logDate.value);
   };
 
-  // 右ボタン押下
+  // ログの右ボタン押下
   $logRightBtn.onclick = () => {
     const nextDate = new Date($logDate.value);
     nextDate.setDate(nextDate.getDate() + 1);
@@ -36,15 +40,27 @@ window.addEventListener('DOMContentLoaded', async () => {
     displayDateTotalMinutes($logDate.value);
   };
 
+  // チャートの左ボタン押下
+  $chartLeftBtn.onclick = () => {
+    weekChartDate.setDate(weekChartDate.getDate() - 7);
+    updateWeekChart(weekChartDate);
+  };
+
+  // チャートの右ボタン押下
+  $chartRightBtn.onclick = () => {
+    weekChartDate.setDate(weekChartDate.getDate() + 7);
+    updateWeekChart(weekChartDate);
+  };
+
   // ログ検索入力時
-  $logSearch.oninput = () => {
+  $search.oninput = () => {
     initializeSearchLog();
-    searchLog($logSearch.value);
-    displayLogSearchSum($logSearch.value);
+    searchLog($search.value);
+    displaySearchSum($search.value);
   };
 
   // CLOSEボタン押下
-  $logCloseBtn.onclick = () => {
+  $closeBtn.onclick = () => {
     window.close();
   };
 
@@ -64,7 +80,7 @@ function initializeTabs() {
       $contents[index].classList.add("active");
 
       // Searchタブでログ検索していない場合
-      if ($contents[index].querySelector(".js-log-content-search") && $logSearch.value == "") {
+      if ($contents[index].querySelector(".js-search-content") && $search.value == "") {
         initializeSearchLog();
       }
     });
@@ -92,13 +108,21 @@ async function displayDateTotalMinutes(date) {
   document.querySelector('.js-log-date-sum').textContent = `の合計：${hours}時間${minutes}分`;
 }
 
-function displayLogSearchSum(txt) {
+function displayChartSum(week, totalMinutes) {
+  const $chartSum = document.querySelector('.js-chart-sum');
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+
+  $chartSum.innerHTML = `${week} の合計：${hours}時間${minutes}分`;
+}
+
+function displaySearchSum(txt) {
   if (txt == "") {
-    document.querySelector('.js-log-search-sum').textContent = `"" の合計：0時間0分`;
+    document.querySelector('.js-search-sum').textContent = `"" の合計：0時間0分`;
     return;
   }
 
-  const $logcontentSearch = document.querySelector('.js-log-content-search');
+  const $logcontentSearch = document.querySelector('.js-search-content');
   const logText = $logcontentSearch.textContent;
 
   // 分を抽出して合計を計算
@@ -115,34 +139,44 @@ function displayLogSearchSum(txt) {
   // 合計時間を表示
   const hours = Math.floor(totalMinutes / 60);
   const minutes = totalMinutes % 60;
-  document.querySelector('.js-log-search-sum').textContent = `"${txt}" の合計：${hours}時間${minutes}分`;
+  document.querySelector('.js-search-sum').textContent = `"${txt}" の合計：${hours}時間${minutes}分`;
 }
 
-async function initializeChart() {
-  // 過去7日間の日付を生成
-  const today = new Date();
+// その週の日曜日の取得
+function getWeekStartDate(date) {
+  const dayOfWeek = date.getDay();
+  const weekStartDate = new Date(date);
+  weekStartDate.setDate(date.getDate() - dayOfWeek);
+  return weekStartDate;
+}
+
+async function initializeWeekChart() {
+  const todayDate = new Date();
+  const weekStartDate = getWeekStartDate(todayDate);
+  const dataLength = todayDate.getDay() - weekStartDate.getDay() + 1;
+
   const labels = Array.from({ length: 7 }, (_, i) => {
-    const date = new Date();
-    date.setDate(today.getDate() - i);
+    const date = new Date(weekStartDate);
+    date.setDate(weekStartDate.getDate() + i);
     return date.toLocaleDateString('ja-JP', { month: '2-digit', day: '2-digit' });
-  }).reverse();
+  });
+
   const data = await Promise.all(
-    Array.from({ length: 7 }, async (_, i) => {
-      const date = new Date();
-      date.setDate(today.getDate() - i);
-      const totalMinutes = await window.timer.getDateTotalMinutes(date.toLocaleDateString('sv-SE'));
-      return (totalMinutes / 60).toFixed(1);
-    }).reverse()
+    Array.from({ length: dataLength}, async (_, i) => {
+      const date = new Date(weekStartDate);
+      date.setDate(weekStartDate.getDate() + i);
+      return totalMinutes = await window.timer.getDateTotalMinutes(date.toLocaleDateString('sv-SE'));
+    })
   );
 
-  // グラフ作成
+  // チャート作成
   const $chart = document.querySelector(".js-chart");
-  new Chart($chart, {
+  weekChart = new Chart($chart, {
     type: 'line',
     data: {
       labels: labels,
       datasets: [{
-        data: data,
+        data: data.map(val => (val / 60).toFixed(1)),
         borderWidth: 2
       }]
     },
@@ -177,19 +211,60 @@ async function initializeChart() {
     },
     plugins: [ChartDataLabels]
   });
+
+  // 1週間の合計を表示
+  displayChartSum(`${labels[0]} - ${labels[labels.length -1]}`, data.reduce((acc, val) => acc + val, 0));
+}
+
+async function updateWeekChart(date) {
+  let dataLength = 7;
+  const weekStartDate = getWeekStartDate(date);
+  const thisWeekStartDate = getWeekStartDate(new Date());
+
+  // 今週の場合
+  if (weekStartDate.getDate() == thisWeekStartDate.getDate()) {
+    dataLength = new Date().getDay() - weekStartDate.getDay() + 1;
+  // 来週以降の場合
+  } else if (weekStartDate > thisWeekStartDate) {
+    dataLength = 0;
+  }
+
+  const labels = Array.from({ length: 7 }, (_, i) => {
+    const date = new Date(weekStartDate);
+    date.setDate(weekStartDate.getDate() + i);
+    return date.toLocaleDateString('ja-JP', { month: '2-digit', day: '2-digit' });
+  });
+
+  const data = await Promise.all(
+    Array.from({ length: dataLength}, async (_, i) => {
+      const date = new Date(weekStartDate);
+      date.setDate(weekStartDate.getDate() + i);
+      return totalMinutes = await window.timer.getDateTotalMinutes(date.toLocaleDateString('sv-SE'));
+    })
+  );
+
+  // パラメータ更新
+  weekChart.data.labels = labels;
+  weekChart.data.datasets[0].data = data.map(val => (val / 60).toFixed(1));
+
+  // チャート更新
+  weekChart.update();
+
+  // 1週間の合計を表示
+  displayChartSum(`${labels[0]} - ${labels[labels.length -1]}`, data.reduce((acc, val) => acc + val, 0));
 }
 
 // ログファイルを読み込み、一番下へスクロール
 function initializeSearchLog() {
   const $logcontent = document.querySelector('.js-log-content');
-  const $logcontentSearch = document.querySelector('.js-log-content-search');
+  const $logcontentSearch = document.querySelector('.js-search-content');
   $logcontentSearch.textContent = $logcontent.textContent;
   $logcontentSearch.scrollTop = $logcontentSearch.scrollHeight;
 }
 
 // ログ検索
 function searchLog(txt) {
-  const $logcontentSearch = document.querySelector('.js-log-content-search');
+  const $logcontentSearch = document.querySelector('.js-search-content');
   const lines = $logcontentSearch.textContent.split("\n");
 
   // 検索ワードをスペースで分割し、小文字に変換

@@ -101,9 +101,9 @@ function createLogWindow() {
   logWindow = new BrowserWindow({
     show: false,
     width: 450,
-    height: 280,
+    height: 300,
     minWidth: 450,
-    minHeight: 280,
+    minHeight: 300,
     backgroundColor: '#232323',
     resizable: true,
     useContentSize: true,

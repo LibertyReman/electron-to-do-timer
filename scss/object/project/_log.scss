@@ -58,6 +58,7 @@
       &__sum {
         @include mixin.dbg-bgcolor(blue, 0);
         display: flex;
+        align-items: center;
         height: 25px;
 
         input[type="date"]  {
@@ -80,9 +81,9 @@
         }
 
         button {
-          background: none;
-          font-size: 14px;
-          font-weight: normal;
+          width: 18px;
+          height: 18px;
+          color: variable.$color-tabfont;
         }
       }
     }
@@ -93,7 +94,26 @@
       flex-direction: column;
       align-items: center;
       width: calc(100vw - 20px);
-      height: calc(100vh - 80px);
+      height: calc(100vh - 97px);
+
+      &__sum {
+        @include mixin.dbg-bgcolor(blue, 0);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        p {
+          width: 216px;
+          margin-left: 5px;
+          font-size: 14px;
+        }
+
+        button {
+          width: 18px;
+          height: 18px;
+          color: variable.$color-tabfont;
+        }
+      }
     }
 
     &__search {

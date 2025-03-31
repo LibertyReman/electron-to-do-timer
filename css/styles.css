@@ -211,6 +211,7 @@ li {
 }
 .p-log__tab-contents__logs__sum {
   display: flex;
+  align-items: center;
   height: 25px;
 }
 .p-log__tab-contents__logs__sum input[type=date] {
@@ -230,16 +231,31 @@ li {
   line-height: 27px;
 }
 .p-log__tab-contents__logs__sum button {
-  background: none;
-  font-size: 14px;
-  font-weight: normal;
+  width: 18px;
+  height: 18px;
+  color: #999999;
 }
 .p-log__tab-contents__chart {
   display: none;
   flex-direction: column;
   align-items: center;
   width: calc(100vw - 20px);
-  height: calc(100vh - 80px);
+  height: calc(100vh - 97px);
+}
+.p-log__tab-contents__chart__sum {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.p-log__tab-contents__chart__sum p {
+  width: 216px;
+  margin-left: 5px;
+  font-size: 14px;
+}
+.p-log__tab-contents__chart__sum button {
+  width: 18px;
+  height: 18px;
+  color: #999999;
 }
 .p-log__tab-contents__search {
   display: none;

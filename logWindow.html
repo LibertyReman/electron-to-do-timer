@@ -20,32 +20,53 @@
           <div class="p-log__tab-contents__logs active">
             <pre class="c-scrollbar js-log-content"></pre>
             <div class="p-log__tab-contents__logs__sum">
-              <button class="c-button js-log-prev-btn">&lt;</button>
+              <button class="js-log-prev-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                </svg>
+              </button>
               <input class="js-log-date" type="date" max="9999-12-31">
-              <p class="js-log-date-sum"></p>
-              <button class="c-button js-log-next-btn">&gt;</button>
+              <p class="js-log-date-sum">の合計：0時間0分</p>
+              <button class="js-log-next-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                </svg>
+              </button>
             </div>
           </div>
 
           <div class="p-log__tab-contents__chart">
             <canvas class="js-chart"></canvas>
+            <div class="p-log__tab-contents__chart__sum">
+              <button class="js-chart-prev-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                </svg>
+              </button>
+              <p class="js-chart-sum">00/00 - 00/00 の合計：0時間0分</p>
+              <button class="js-chart-next-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                </svg>
+              </button>
+            </div>
           </div>
 
           <div class="p-log__tab-contents__search">
             <div class="p-log__tab-contents__search__input">
-              <input class="js-log-search" type="search" placeholder="" maxlength="30" required>
+              <input class="js-search" type="search" placeholder="" maxlength="30" required>
               <button>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.0" stroke="currentColor" class="size-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                 </svg>
               </button>
             </div>
-            <pre class="c-scrollbar js-log-content-search"></pre>
-            <p class="js-log-search-sum">"" の合計：0時間0分</p>
+            <pre class="c-scrollbar js-search-content"></pre>
+            <p class="js-search-sum">"" の合計：0時間0分</p>
           </div>
         </div>
 
-        <button class="c-button p-log__close-btn js-log-close-btn">CLOSE</button>
+        <button class="c-button p-log__close-btn js-close-btn">CLOSE</button>
       </div>
     </main>
     <script src="./node_modules/chart.js/dist/chart.umd.js"></script>
