@@ -41,8 +41,8 @@ window.addEventListener('DOMContentLoaded', () => {
 function initializeFromQuery() {
   // クエリパラメータの取得
   const urlParams = new URLSearchParams(window.location.search);
-  const data = urlParams.get('data');
-  const appSettings = JSON.parse(decodeURIComponent(data));
+  const encodedAppSettings = urlParams.get('appSettings');
+  const appSettings = JSON.parse(decodeURIComponent(encodedAppSettings));
 
   // レンジスライダーの設定
   $volume.value = appSettings.volume;

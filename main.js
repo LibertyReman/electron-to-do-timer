@@ -35,8 +35,8 @@ function createMainWindow() {
   // 画面フロート設定
   mainWindow.setAlwaysOnTop(appSettings.topmost);
   // 画面作成
-  const encodeData = encodeURIComponent(JSON.stringify(appSettings));
-  mainWindow.loadURL(`file://${__dirname}/mainWindow.html?data=${encodeData}`);
+  const encodedAppSettings = encodeURIComponent(JSON.stringify(appSettings));
+  mainWindow.loadURL(`file://${__dirname}/mainWindow.html?appSettings=${encodedAppSettings}`);
   // 起動時に自動で開発者ツールを開く
   //mainWindow.webContents.openDevTools({ mode: 'detach' });
 
@@ -120,8 +120,9 @@ function createLogWindow() {
   logWindow.once('ready-to-show', () => logWindow.show());
 
   // 画面作成
+  const encodedAppSettings = encodeURIComponent(JSON.stringify(appSettings));
   const logpath = app.isPackaged ? path.join(__dirname, '..', 'todolog.txt') : 'todolog.txt';
-  logWindow.loadURL(`file://${__dirname}/logWindow.html?logpath=${logpath}`);
+  logWindow.loadURL(`file://${__dirname}/logWindow.html?appSettings=${encodedAppSettings}&logpath=${logpath}`);
   //logWindow.webContents.openDevTools({ mode: 'detach' });
 }
 
@@ -147,8 +148,8 @@ function createSettingsWindow() {
   settingsWindow.once('ready-to-show', () => settingsWindow.show());
 
   // 画面作成
-  const encodeData = encodeURIComponent(JSON.stringify(appSettings));
-  settingsWindow.loadURL(`file://${__dirname}/settingsWindow.html?data=${encodeData}`);
+  const encodedAppSettings = encodeURIComponent(JSON.stringify(appSettings));
+  settingsWindow.loadURL(`file://${__dirname}/settingsWindow.html?appSettings=${encodedAppSettings}`);
   //settingsWindow.webContents.openDevTools({ mode: 'detach' });
 }
 
@@ -210,7 +211,6 @@ function saveAppSettings(settings = {}) {
 ipcMain.handle('updateAppSettings', updateAppSettings);
 ipcMain.handle('saveLog', saveLog);
 ipcMain.handle('openLogWindow', openLogWindow);
-ipcMain.handle('getTodaysTotalMinutes', getDateTotalMinutes);
 
 // アプリ設定更新
 function updateAppSettings(event, settings) {
@@ -224,8 +224,8 @@ function updateAppSettings(event, settings) {
   mainWindow.setAlwaysOnTop(settings.topmost);
 
   // サウンド設定の更新
-  const encodeData = encodeURIComponent(JSON.stringify(appSettings));
-  mainWindow.loadURL(`file://${__dirname}/mainWindow.html?data=${encodeData}`);
+  const encodedAppSettings = encodeURIComponent(JSON.stringify(appSettings));
+  mainWindow.loadURL(`file://${__dirname}/mainWindow.html?appSettings=${encodedAppSettings}`);
 }
 
 // ログ保存
@@ -239,49 +239,4 @@ function openLogWindow(event) {
   createLogWindow();
 }
 
-// 本日の合計分を計算
-function getDateTotalMinutes(event, date) {
-  const dateArray = date.split('-');
-  const [year, month, day] = dateArray.map(val => parseInt(val, 10));
-  const startTime = new Date();
-
-  // 日付を設定
-  startTime.setFullYear(year, month - 1, day);
-
-  // startTimeのコピーを作成
-  const endTime = new Date(startTime);
-
-  // リセット時間を超えていない場合は日付更新しない
-  if(new Date().getHours() < appSettings.resetHours) {
-    startTime.setDate(startTime.getDate() - 1)
-    endTime.setDate(endTime.getDate() - 1)
-  }
-
-  // 合計分の計算範囲
-  startTime.setHours(appSettings.resetHours, 0, 0, 0)
-  endTime.setHours(appSettings.resetHours, 0, 0, 0);
-  endTime.setDate(endTime.getDate() + 1);
-
-  // 合計分の計算
-  let totalMinutes = 0;
-  const logData = fs.readFileSync(todologFilePath, 'utf-8');
-  const lines = logData.split('\n');
-
-  lines.forEach(line => {
-    // ログのタイムスタンプ抽出
-    const timestampMatch = line.match(/\[(.*?)\]/);
-    if(timestampMatch){
-      // 計算範囲内の合計分を計算
-      const logTime = new Date(timestampMatch[1]);
-      if(startTime <= logTime && logTime < endTime) {
-        const minuteMatch = line.match(/(\d{1,3})分/);
-        if(minuteMatch) {
-          totalMinutes += parseInt(minuteMatch[1], 10);
-        }
-      }
-    }
-  });
-
-  return totalMinutes;
-}
 
