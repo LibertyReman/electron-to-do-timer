@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, Menu, screen } = require('electron');
 const path = require('node:path');
 const fs = require('fs');
 const isWin = process.platform === 'win32'
@@ -31,7 +31,7 @@ function createMainWindow() {
   // レンダリングの準備が完了してから画面を表示
   mainWindow.once('ready-to-show', () => mainWindow.show());
   // 画面表示位置の設定
-  if(appSettings.x && appSettings.y) mainWindow.setPosition(appSettings.x, appSettings.y);
+  if (isWindowInBounds(appSettings.x, appSettings.y, 240, 240)) mainWindow.setPosition(appSettings.x, appSettings.y);
   // 画面フロート設定
   mainWindow.setAlwaysOnTop(appSettings.topmost);
   // 画面作成
@@ -204,6 +204,26 @@ function saveAppSettings(settings = {}) {
 
   // JSONファイルに書き込む
   fs.writeFileSync(settingsFilePath, JSON.stringify(appSettings, null, 2), 'utf-8');
+}
+
+// 画面表示位置が有効か確認
+function isWindowInBounds(x, y, width, height) {
+  // 引数チェック
+  if ([x, y, width, height].some(v => v === null || v === undefined)) {
+    return false;
+  }
+
+  // 各ディスプレイ領域内に画面表示位置が収まっているか確認
+  const displays = screen.getAllDisplays();
+  return displays.some(display => {
+    const bounds = display.bounds;
+    return (
+      x >= bounds.x &&
+      y >= bounds.y &&
+      x + width <= bounds.x + bounds.width &&
+      y + height <= bounds.y + bounds.height
+    );
+  });
 }
 
 
