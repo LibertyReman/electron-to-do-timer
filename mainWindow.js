@@ -98,13 +98,13 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 // クエリパラメータによる初期化
-function initializeFromQuery() {
+async function initializeFromQuery() {
   // クエリパラメータの取得
   const urlParams = new URLSearchParams(window.location.search);
   const encodedAppSettings = urlParams.get('appSettings');
   const appSettings = JSON.parse(decodeURIComponent(encodedAppSettings));
 
-  setAudio(appSettings.sound, appSettings.volume);
+  await setAudio(appSettings.sound, appSettings.volume);
 }
 
 function timeToSecond(time) {
@@ -230,13 +230,22 @@ function updateBtnUI(startStopText, startStopDisabled, saveResetText, saveResetD
   $saveResetBtn.disabled = saveResetDisabled;
 }
 
-function setAudio(sound, volume) {
+async function loadBase64Audio(path) {
+  const response = await fetch(path);
+  const base64 = await response.text();
+  return 'data:audio/mp3;base64,' + base64.trim();
+}
+
+async function setAudio(sound, volume) {
+  let base64DataUrl;
+
   if (sound === 'pipipi') {
-    $audio.src = './audio/pipipi.mp3';
+    base64DataUrl = await loadBase64Audio('./audio/pipipi.base64');
   } else {
-    $audio.src = './audio/poppo.mp3';
+    base64DataUrl = await loadBase64Audio('./audio/poppo.base64');
   }
 
+  $audio.src = base64DataUrl;
   $audio.volume = volume;
 }
 
