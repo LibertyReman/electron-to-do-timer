@@ -230,7 +230,10 @@ function initializeWeekChart(date) {
       labels: labels,
       datasets: [{
         data: data.map(val => (val / 60).toFixed(1)),
-        borderWidth: 2
+        borderWidth: 2,
+        pointBackgroundColor: '#57A0E5',
+        pointBorderColor: '#57A0E5',
+        pointRadius: 3
       }]
     },
     options: {
