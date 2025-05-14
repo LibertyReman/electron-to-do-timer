@@ -261,7 +261,8 @@ function initializeWeekChart(date) {
       },
       scales: {
         y: {
-          beginAtZero: true
+          beginAtZero: true,
+          suggestedMax: 10
         }
       }
     },

@@ -61,23 +61,28 @@ window.addEventListener('DOMContentLoaded', () => {
     flatPickr.toggle();
   };
 
-  // タイマータイトルのフォーカスが外れたとき
-  $timerTitle.onblur = () => {
-    localStorage.setItem('lastTitle', $timerTitle.value);
-
+  // タイマータイトル入力時
+  $timerTitle.oninput = () => {
     // タイトル未設定の場合はSTARTボタン非表示
     if($timerTitle.value === '') {
       updateBtnUI('START', true, 'SAVE', true);
     } else {
-      saveTitleHistory($timerTitle.value);
-      updateTitleList();
-
       if(remainingTime != initTime) {
         // タイマー起動中の場合はSAVEボタン表示
         updateBtnUI('START', false, 'SAVE', false);
       } else {
         updateBtnUI('START', false, 'SAVE', true);
       }
+    }
+  };
+
+  // タイマータイトルのフォーカスが外れたとき
+  $timerTitle.onblur = () => {
+    localStorage.setItem('lastTitle', $timerTitle.value);
+
+    if($timerTitle.value !== '') {
+      saveTitleHistory($timerTitle.value);
+      updateTitleList();
     }
   };
 
