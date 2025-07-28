@@ -280,7 +280,7 @@ function updateWeekChart(date) {
   const weekStartDate = getWeekStartDate(date);
 
   // 今週の場合
-  if (weekStartDate.getDate() == thisWeekStartDate.getDate()) {
+  if (weekStartDate.toLocaleDateString('sv-SE') == thisWeekStartDate.toLocaleDateString('sv-SE')) {
     dataLength = todayDate.getDay() - weekStartDate.getDay() + 1;
   // 来週以降の場合
   } else if (weekStartDate > thisWeekStartDate) {
