@@ -25,6 +25,7 @@ function createMainWindow() {
     fullscreenable: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      backgroundThrottling: false
     },
   });
 
