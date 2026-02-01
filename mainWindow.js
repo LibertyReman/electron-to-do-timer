@@ -29,7 +29,6 @@ window.addEventListener('DOMContentLoaded', () => {
   initTime = timeToSecond($timerDuration.value);
   initializeFromQuery();
   initFlatpickr();
-  updateTitleList();
   timerState('INIT');
 
   // ログボタン押下
@@ -61,8 +60,17 @@ window.addEventListener('DOMContentLoaded', () => {
     flatPickr.toggle();
   };
 
+  // タイマータイトル押下
+  $timerTitle.onclick = () => {
+    // タイトル履歴の表示
+    renderFilteredHistory();
+  };
+
   // タイマータイトル入力時
   $timerTitle.oninput = () => {
+    // タイトル履歴の絞り込み
+    renderFilteredHistory();
+
     // タイトル未設定の場合はSTARTボタン非表示
     if($timerTitle.value === '') {
       updateBtnUI('START', true, 'SAVE', true);
@@ -76,13 +84,23 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  // タイトル履歴押下
+  $timerTitleHistory.onmousedown = (e) => {
+    // タイトルを設定
+    $timerTitle.value = e.target.textContent;
+    // タイトル変更を明示的に通知
+    $timerTitle.dispatchEvent(new Event('input'));
+  };
+
   // タイマータイトルのフォーカスが外れたとき
   $timerTitle.onblur = () => {
+    // 起動時のタイトル用に最新タイトルを保存
     localStorage.setItem('lastTitle', $timerTitle.value);
+    // タイトル履歴を非表示
+    $timerTitleHistory.classList.remove('is-open');
 
     if($timerTitle.value !== '') {
       saveTitleHistory($timerTitle.value);
-      updateTitleList();
     }
   };
 
@@ -286,16 +304,10 @@ function saveTitleHistory(title) {
   history = history.filter(item => item !== title);
   history.unshift(title);
 
-  // 最大3件に制限
-  history = history.slice(0, 3);
+  // 最大15件に制限
+  history = history.slice(0, 15);
 
   localStorage.setItem("titleHistory", JSON.stringify(history));
-}
-
-// タイトルリストの更新
-function updateTitleList() {
-  const history = getTitleHistory();
-  $timerTitleHistory.innerHTML = history.map(item => `<option value="${item}">`).join("");
 }
 
 // タイトル履歴の取得
@@ -303,4 +315,22 @@ function getTitleHistory() {
   return JSON.parse(localStorage.getItem("titleHistory")) || [];
 }
 
+// タイトル履歴をフィルタして表示
+function renderFilteredHistory() {
+  const filter = $timerTitle.value;
+  const history = getTitleHistory()
+    .filter(item => item.toLowerCase().includes(filter.toLowerCase()));
+
+  // タイトル履歴がない場合は表示しない
+  if (history.length === 0) {
+    $timerTitleHistory.classList.remove('is-open');
+    return;
+  }
+
+  $timerTitleHistory.innerHTML = history
+    .map(item => `<div class="p-timer__title-history__item">${item}</div>`)
+    .join("");
+
+  $timerTitleHistory.classList.add('is-open');
+}
 

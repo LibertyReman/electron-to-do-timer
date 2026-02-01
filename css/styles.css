@@ -115,6 +115,29 @@ li {
   padding: 0;
   opacity: 0;
 }
+.p-timer__title-history {
+  display: none;
+  position: absolute;
+  z-index: 10;
+  top: 150px;
+  width: 160px;
+  max-height: 78px;
+  overflow-y: auto;
+  background: #232323;
+  border: solid 1px #B9B9B9;
+  border-radius: 3px;
+}
+.p-timer__title-history.is-open {
+  display: block;
+}
+.p-timer__title-history__item {
+  padding: 6px 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.p-timer__title-history__item:hover {
+  background: #3D3D3D;
+}
 .p-timer__ctrl-btns {
   display: flex;
   justify-content: space-evenly;
