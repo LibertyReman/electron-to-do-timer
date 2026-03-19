@@ -131,6 +131,9 @@ li {
   display: block;
 }
 .p-timer__title-history__item {
+  display: inline-block;
+  width: max-content;
+  min-width: 100%;
   height: 26px;
   padding: 6px 8px;
   white-space: nowrap;

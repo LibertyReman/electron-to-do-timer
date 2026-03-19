@@ -84,12 +84,14 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // タイトル履歴押下
+  // タイマータイトル履歴押下
   $timerTitleHistory.onmousedown = (e) => {
-    // タイトルを設定
-    $timerTitle.value = e.target.textContent;
-    // タイトル変更を明示的に通知
-    $timerTitle.dispatchEvent(new Event('input'));
+    // タイトル履歴がクリックされた場合のみ処理
+    if (e.target.classList.contains('p-timer__title-history__item')) {
+      $timerTitle.value = e.target.textContent;
+      // タイマータイトル入力を明示的に通知
+      $timerTitle.dispatchEvent(new Event('input'));
+    }
   };
 
   // タイマータイトルのフォーカスが外れたとき
