@@ -77,6 +77,65 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 })
 
+// ショートカットキー
+window.addEventListener('keydown', (e) => {
+  // ESCキーでログ画面を閉じる
+  if (e.key === 'Escape') {
+    $closeBtn.click();
+  }
+
+  // 現在のタブを取得
+  const $tabs = document.querySelectorAll('.js-tab li');
+  const activeIndex = [...$tabs].findIndex(tab =>
+    tab.classList.contains('active')
+  );
+
+  // Shift + →：次のタブへ
+  if (e.shiftKey && e.key === 'ArrowRight') {
+    if (activeIndex < $tabs.length - 1) {
+      $tabs[activeIndex + 1].click();
+    }
+    return;
+  }
+
+  // Shift + ←：前のタブへ
+  if (e.shiftKey && e.key === 'ArrowLeft') {
+    if (activeIndex > 0) {
+      $tabs[activeIndex - 1].click();
+    }
+    return;
+  }
+
+  // 現在アクティブなタブを取得
+  const $activeTab = document.querySelector('.js-tab li.active');
+
+  // Logsタブの場合
+  if ($activeTab.textContent === 'Logs') {
+    // ←キーで前日のログを表示
+    if (e.key === 'ArrowLeft') {
+      $logLeftBtn.click();
+    }
+
+    // →キーで翌日のログを表示
+    if (e.key === 'ArrowRight') {
+      $logRightBtn.click();
+    }
+  }
+
+  // Chartタブの場合
+  if ($activeTab.textContent === 'Chart') {
+    // ←キーで先週のチャートを表示
+    if (e.key === 'ArrowLeft') {
+      $chartLeftBtn.click();
+    }
+
+    // →キーで翌週のチャートを表示
+    if (e.key === 'ArrowRight') {
+      $chartRightBtn.click();
+    }
+  }
+});
+
 function initializeTabs() {
   const $tabs = document.querySelectorAll(".js-tab li");
   const $contents = document.querySelectorAll(".js-tab-contents > div");

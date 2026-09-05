@@ -122,6 +122,19 @@ window.addEventListener('DOMContentLoaded', () => {
   };
 });
 
+// l 押下でログ画面を開く
+window.addEventListener('keydown', (e) => {
+  // タイマータイトルにフォーカス中は無効
+  if (document.activeElement === $timerTitle) {
+    return;
+  }
+
+  // lキーでログボタンを押下
+  if (e.key.toLowerCase() === 'l') {
+    $logBtn.click();
+  }
+});
+
 // クエリパラメータによる初期化
 async function initializeFromQuery() {
   // クエリパラメータの取得
